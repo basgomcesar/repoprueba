@@ -1,0 +1,16 @@
+{
+  "name": "inicio_js",
+  "version": "1.0.0",
+  "main": "hola_mundo.js",
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "lint": "eslint *.js"
+  },
+  "author": "nicopaez",
+  "license": "ISC",
+  "description": "proyecto de ejemplo",
+  "devDependencies": {
+    "eslint": "^9.19.0",
+    "jest": "^29.7.0"
+  }
+}
