@@ -1,4 +1,4 @@
-import Calculadora from './calculadora';
+import Calculadora from "./calculadora";
 
 const calc = new Calculadora();
 
