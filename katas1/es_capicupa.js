@@ -1,10 +1,6 @@
 const entrada = process.argv[2];
 
-if (isNaN(Number(entrada))) {
-  console.log("No es un número válido.");
-} else {
-  imprimirCapicua(entrada);
-}
+imprimirCapicua(entrada);
 
 function imprimirCapicua(numero) {
   const reversa = invertirNumero(numero);
@@ -19,3 +15,4 @@ function imprimirCapicua(numero) {
 function invertirNumero(numero) {
   return numero.split("").reverse().join("");
 }
+
