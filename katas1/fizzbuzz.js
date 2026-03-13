@@ -1,19 +1,19 @@
-const { generarFizzBuzz } = require('./fizzbuzz.logic');
+const { generateFizzBuzz } = require('./fizzbuzz.logic');
 
-const primerArgumento = process.argv[2];
+const firstArgument = process.argv[2];
 
-function imprimirResultado(valor) {
-  if (isNaN(Number(valor))) {
+function printResult(value) {
+  if (Number.isNaN(value)) {
     console.log("No es un numero valido.");
   } else {
-    imprimirMultiplos(Number(valor));
+    printMultiples(Number(value));
   }
 }
 
-function imprimirMultiplos(limite) {
-  const resultado = generarFizzBuzz(limite);
+function printMultiples(limit) {
+  const result = generateFizzBuzz(limit);
 
-  resultado.forEach(valor => console.log(valor));
+  result.forEach(value => console.log(value));
 }
 
-imprimirResultado(entrada);
+printResult(firstArgument);

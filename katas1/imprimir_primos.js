@@ -1,22 +1,23 @@
-const { generarPrimos } = require('./imprimir_primos.logic');
+const { generatePrimes } = require('./imprimir_primos.logic');
 
-const entrada = process.argv[2];
+const input = process.argv[2];
 
-function imprimirResultado(valor) {
-  if (isNaN(Number(valor))) {
+function imprimirResultado(value) {
+  if (Number.isNaN(value)) {
     console.log("No es un número válido.");
   } else {
-    imprimirPrimos(Number(valor));
+    imprimirPrimos(value);
   }
 }
-function imprimirPrimos(limite) {
-  const primos = generarPrimos(limite);
 
-  if (primos.length === 0) {
-    console.log(`No hay numeros primos para ${limite}`);
+function imprimirPrimos(limit) {
+  const primes = generatePrimes(limit);
+
+  if (primes.length === 0) {
+    console.log(`No hay numeros primos para ${limit}`);
   } else {
-    console.log(`Los primos hasta ${limite} son: ${primos.join(", ")}`);
+    console.log(`Los primos hasta ${limit} son: ${primes.join(", ")}`);
   }
 }
 
-imprimirResultado(entrada);
+imprimirResultado(input);

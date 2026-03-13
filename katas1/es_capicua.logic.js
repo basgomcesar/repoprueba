@@ -1,13 +1,13 @@
-function invertirNumero(numero) {
-  return numero.split("").reverse().join("");
+function reversedNumber(number) {
+  return number.split("").reverse().join("");
 }
 
-function esCapicua(numero) {
-  const reversa = invertirNumero(numero);
-  return numero === reversa;
+function isCapicua(number) {
+  const reversa = reversedNumber(number);
+  return number === reversa;
 }
 
 module.exports = {
-  invertirNumero,
-  esCapicua
+  reversedNumber,
+  isCapicua
 };

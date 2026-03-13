@@ -1,22 +1,22 @@
-const { esCapicua } = require('./es_capicua.logic');
+const { isCapicua } = require('./es_capicua.logic');
 
-const entrada = process.argv[2];
+const inputValue = process.argv[2];
 
-function validarEntrada(valor) {
-  if (!valor) {
-    console.log("Ingresa un string válido");
+function validateInput(value) {
+  if (!value) {
+    console.log("Ingresa un string valido");
     return;
   }
 
-  imprimirResultado(valor);
+  printResult(value);
 }
 
-function imprimirResultado(numero) {
-  if (esCapicua(numero)) {
-    console.log(`${numero} es capicua`);
+function printResult(value) {
+  if (isCapicua(value)) {
+    console.log(`${value} es capicua`);
   } else {
-    console.log(`${numero} no es capicua`);
+    console.log(`${value} no es capicua`);
   }
 }
 
-validarEntrada(entrada);
+validateInput(inputValue);

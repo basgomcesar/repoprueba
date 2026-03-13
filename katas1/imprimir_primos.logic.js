@@ -1,25 +1,25 @@
-function esPrimo(numero) {
-  for (let i = 2; i < numero; i++) {
-    if (numero % i === 0) {
+function isPrime(number) {
+  for (let i = 2; i < number; i++) {
+    if (number % i === 0) {
       return false;
     }
   }
   return true;
 }
 
-function generarPrimos(limite) {
-  const primos = [];
+function generatePrimes(limit) {
+  const primes = [];
 
-  for (let i = 2; i <= limite; i++) {
-    if (esPrimo(i)) {
-      primos.push(i);
+  for (let i = 2; i <= limit; i++) {
+    if (isPrime(i)) {
+      primes.push(i);
     }
   }
 
-  return primos;
+  return primes;
 }
 
 module.exports = {
-  esPrimo,
-  generarPrimos
+  isPrime,
+  generatePrimes
 };

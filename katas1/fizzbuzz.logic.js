@@ -1,30 +1,30 @@
-function obtenerFizzBuzz(numero) {
-  if (numero % 3 === 0 && numero % 5 === 0) {
+function getFizzBuzz(number) {
+  if (number % 3 === 0 && number % 5 === 0) {
     return "FizzBuzz";
   }
 
-  if (numero % 3 === 0) {
+  if (number % 3 === 0) {
     return "Fizz";
   }
 
-  if (numero % 5 === 0) {
+  if (number % 5 === 0) {
     return "Buzz";
   }
 
-  return numero;
+  return number;
 }
 
-function generarFizzBuzz(limite) {
-  const resultado = [];
+function generateFizzBuzz(limit) {
+  const result = [];
 
-  for (let i = 1; i <= limite; i++) {
-    resultado.push(obtenerFizzBuzz(i));
+  for (let i = 1; i <= limit; i++) {
+    result.push(getFizzBuzz(i));
   }
 
-  return resultado;
+  return result;
 }
 
 module.exports = {
-  obtenerFizzBuzz,
-  generarFizzBuzz
+  getFizzBuzz,
+  generateFizzBuzz
 };
