@@ -28,9 +28,9 @@ test("capac es capicua", () => {
   expect(result).toBe("capac es capicua");
 });
 
-
 const normalizeOutput = (output) =>
   output
+    // eslint-disable-next-line no-control-regex
     .replace(/\x1B\[[0-9;]*m/g, '')
     .replace(/\r\n/g, '\n')
     .trim();

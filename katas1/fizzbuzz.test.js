@@ -31,7 +31,9 @@ test("secuencia hasta 5", () => {
 test('debe imprimir fizzbuzz hasta 5', () => {
   const output = execSync('node fizzbuzz.js 5', { encoding: 'utf-8' });
 
-  const stripAnsi = (str) => str.replace(/\x1B\[[0-9;]*m/g, '');
+  const stripAnsi = (str) => 
+    // eslint-disable-next-line no-control-regex
+    str.replace(/\x1B\[[0-9;]*m/g, '');
 
   const lines = output
     .split('\n')
@@ -61,5 +63,6 @@ test('entrada no válida', () => {
   expect(normalize).toBe('No es un numero valido.');
 });
 
-
-const stripAnsi = (str) => str.replace(/\x1B\[[0-9;]*m/g, '');
+const stripAnsi = (str) => 
+  // eslint-disable-next-line no-control-regex
+  str.replace(/\x1B\[[0-9;]*m/g, '');
