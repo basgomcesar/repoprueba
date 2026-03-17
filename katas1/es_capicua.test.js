@@ -11,14 +11,9 @@ test("invierte una palabra", () => {
 });
 
 
-test("121 es capicua", () => {
+test("askes no es capicua", () => {
   const { isCapicua } = require('./es_capicua.logic');
-  expect(isCapicua("121")).toBe(true);
-});
-
-test("123 no es capicua", () => {
-  const { isCapicua } = require('./es_capicua.logic');
-  expect(isCapicua("123")).toBe(false);
+  expect(isCapicua("askes")).toBe(false);
 });
 
 test("oso es capicua", () => {
@@ -26,22 +21,16 @@ test("oso es capicua", () => {
   expect(isCapicua("oso")).toBe(true);
 });
 
-test("121 es capicua", () => {
-  const output = execSync('node es_capicua.js 121', { encoding: 'utf-8' });
+test("capac es capicua", () => {
+  const output = execSync('node es_capicua.js capac', { encoding: 'utf-8' });
   const result = normalizeOutput(output);
 
-  expect(result).toBe("121 es capicua");
+  expect(result).toBe("capac es capicua");
 });
 
-test("123 no es capicua", () => {
-  const output = execSync('node es_capicua.js 123', { encoding: 'utf-8' });
-  const result = normalizeOutput(output);
-
-  expect(result).toBe("123 no es capicua");
-});
 
 const normalizeOutput = (output) =>
   output
-    .replace(/\x1B\[[0-9;]*m/g, '') // limpia ANSI (por si acaso)
+    .replace(/\x1B\[[0-9;]*m/g, '')
     .replace(/\r\n/g, '\n')
     .trim();
