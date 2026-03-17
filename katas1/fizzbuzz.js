@@ -3,11 +3,14 @@ const { generateFizzBuzz } = require('./fizzbuzz.logic');
 const firstArgument = process.argv[2];
 
 function printResult(value) {
-  if (Number.isNaN(value)) {
+  const numero = Number(value);
+
+  if (Number.isNaN(numero)) {
     console.log("No es un numero valido.");
-  } else {
-    printMultiples(Number(value));
+    return;
   }
+
+  printMultiples(numero);
 }
 
 function printMultiples(limit) {
