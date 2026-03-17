@@ -3,11 +3,14 @@ const { generatePrimes } = require('./imprimir_primos.logic');
 const input = process.argv[2];
 
 function imprimirResultado(value) {
-  if (Number.isNaN(value)) {
+  const numero = Number(value);
+
+  if (Number.isNaN(numero)) {
     console.log("No es un número válido.");
-  } else {
-    imprimirPrimos(value);
+    return;
   }
+
+  imprimirPrimos(numero);
 }
 
 function imprimirPrimos(limit) {
