@@ -1,30 +1,33 @@
 const execSync = require('child_process').execSync;
+const { getFizzBuzz } = require('./fizzbuzz.logic');
+const { generateFizzBuzz } = require('./fizzbuzz.logic');
+
+
+const stripAnsi = (str) => 
+  // eslint-disable-next-line no-control-regex
+  str.replace(/\x1B\[[0-9;]*m/g, '');
+
 
 //Pruebas unitarias
 test("multiplo de 3", () => {
-  const { getFizzBuzz } = require('./fizzbuzz.logic');
   expect(getFizzBuzz(3)).toBe("Fizz");
 });
 
 test("multiplo de 5", () => {
-  const { getFizzBuzz } = require('./fizzbuzz.logic');
   expect(getFizzBuzz(5)).toBe("Buzz");
 });
 
 test("multiplo de 3 y 5", () => {
-  const { getFizzBuzz } = require('./fizzbuzz.logic');
   expect(getFizzBuzz(15)).toBe("FizzBuzz");
 });
 
 test("numero normal", () => {
-  const { getFizzBuzz } = require('./fizzbuzz.logic');
   expect(getFizzBuzz(2)).toBe(2);
 });
 
 
 //Prueba de aceptación
 test("secuencia hasta 5", () => {
-  const { generateFizzBuzz } = require('./fizzbuzz.logic');
   expect(generateFizzBuzz(5)).toEqual([1, 2, "Fizz", 4, "Buzz"]);
 });
 
@@ -62,7 +65,3 @@ test('entrada no válida', () => {
   const normalize = output.toString().trim().replace(/\r\n/g, '\n');
   expect(normalize).toBe('No es un numero valido.');
 });
-
-const stripAnsi = (str) => 
-  // eslint-disable-next-line no-control-regex
-  str.replace(/\x1B\[[0-9;]*m/g, '');
