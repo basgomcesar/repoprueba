@@ -23,4 +23,9 @@ describe('SistemaRover', () => {
     sistemaRover.avanzar();
     expect(sistemaRover.obtenerPosicionY()).toEqual(-1);
   });
+  it("rotarDerecha cambia la dirección de NORTE a ESTE", () => {
+    const sistemaRover = new SistemaRover();
+    sistemaRover.rotarDerecha();
+    expect(sistemaRover.obtenerDireccion()).toEqual(Direccion.ESTE);
+  });
 });

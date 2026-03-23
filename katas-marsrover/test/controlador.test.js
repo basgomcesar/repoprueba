@@ -12,7 +12,7 @@ describe("Controlador", () => {
       avanzar: jest.fn(),
       obtenerPosicionX: jest.fn(),
       obtenerPosicionY: jest.fn(),
-      obtenerDireccion: jest.fn() 
+      obtenerDireccion: jest.fn()
     };
     const controlador = new Controlador(sistemaRover);
     //act
@@ -25,7 +25,7 @@ describe("Controlador", () => {
       avanzar: jest.fn(),
       obtenerPosicionX: jest.fn(),
       obtenerPosicionY: jest.fn(),
-      obtenerDireccion: jest.fn() 
+      obtenerDireccion: jest.fn()
     };
     const controlador = new Controlador(sistemaRover);
     //act
@@ -41,7 +41,7 @@ describe("Controlador", () => {
     //assert
     expect(resultado).toEqual("0:2:N");
   });
-    it("Ejecutar intruccion D deberia rotar derecha", () => {
+  it("Ejecutar intruccion D deberia rotar derecha", () => {
     const sistemaRover = {
       avanzar: jest.fn(),
       obtenerPosicionX: jest.fn(),
