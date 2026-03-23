@@ -12,4 +12,15 @@ describe('SistemaRover', () => {
     const sistemaRover = new SistemaRover();
     expect(sistemaRover.obtenerDireccion()).toEqual(Direccion.NORTE);
   });
+  it("avanzar incrementa y cuando direccion norte", () => {
+    const sistemaRover = new SistemaRover();
+    sistemaRover.avanzar();
+    expect(sistemaRover.obtenerPosicionY()).toEqual(1);
+  });
+  it("avanzar decrementa y cuando direccion sur", () => {
+    const sistemaRover = new SistemaRover();
+    sistemaRover.direccion = Direccion.SUR;
+    sistemaRover.avanzar();
+    expect(sistemaRover.obtenerPosicionY()).toEqual(-1);
+  });
 });
