@@ -1,31 +1,32 @@
-const SistemaRover = require('../app/sistema_rover');
-const Direccion = require('../app/direccion');
+const Rover = require('../src/domain/rover');
+const Direction = require('../src/domain/direction');
 
-describe('SistemaRover', () => {
-  it("Inicialmente esta en posición (0, 0) con dirección NORTE", () => {
-    const sistemaRover = new SistemaRover();
-    expect(sistemaRover.obtenerPosicionX()).toEqual(0);
-    expect(sistemaRover.obtenerPosicionY()).toEqual(0);
+describe('Rover', () => {
+  it("Inicialmente esta en posición (0, 0) con dirección NORTH", () => {
+    const rover = new Rover();
+    expect(rover.getPositionX()).toEqual(0);
+    expect(rover.getPositionY()).toEqual(0);
   });
 
-  it("Inicialmente la dirección es NORTE", () => {
-    const sistemaRover = new SistemaRover();
-    expect(sistemaRover.obtenerDireccion()).toEqual(Direccion.NORTE);
+  it("Inicialmente la dirección es NORTH", () => {
+    const rover = new Rover();
+    expect(rover.getDirection()).toEqual(Direction.NORTH);
   });
   it("avanzar incrementa y cuando direccion norte", () => {
-    const sistemaRover = new SistemaRover();
-    sistemaRover.avanzar();
-    expect(sistemaRover.obtenerPosicionY()).toEqual(1);
+    const rover = new Rover();
+    rover.moveForward();
+    expect(rover.getPositionY()).toEqual(1);
   });
   it("avanzar decrementa y cuando direccion sur", () => {
-    const sistemaRover = new SistemaRover();
-    sistemaRover.direccion = Direccion.SUR;
-    sistemaRover.avanzar();
-    expect(sistemaRover.obtenerPosicionY()).toEqual(-1);
+    const rover = new Rover();
+    rover.rotateRight();
+    rover.rotateRight();
+    rover.moveForward();
+    expect(rover.getPositionY()).toEqual(-1);
   });
   it("rotarDerecha cambia la dirección de NORTE a ESTE", () => {
-    const sistemaRover = new SistemaRover();
-    sistemaRover.rotarDerecha();
-    expect(sistemaRover.obtenerDireccion()).toEqual(Direccion.ESTE);
+    const rover = new Rover();
+    rover.rotateRight();
+    expect(rover.getDirection()).toEqual(Direction.EAST);
   });
 });
