@@ -27,6 +27,18 @@ class SistemaRover {
       this.posicionX -= 1;
     }
   }
+  rotarDerecha() {
+    if (this.direccion === Direccion.NORTE) {
+      this.direccion = Direccion.ESTE;
+    } else if (this.direccion === Direccion.ESTE) {
+      this.direccion = Direccion.SUR;
+    } else if (this.direccion === Direccion.SUR) {
+      this.direccion = Direccion.OESTE;
+    } else if (this.direccion === Direccion.OESTE) {
+      this.direccion = Direccion.NORTE;
+    }
+  }
+
 }
 
 module.exports = SistemaRover;

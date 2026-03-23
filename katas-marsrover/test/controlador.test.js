@@ -41,5 +41,22 @@ describe("Controlador", () => {
     //assert
     expect(resultado).toEqual("0:2:N");
   });
+    it("Ejecutar intruccion D deberia rotar derecha", () => {
+    const sistemaRover = {
+      avanzar: jest.fn(),
+      obtenerPosicionX: jest.fn(),
+      obtenerPosicionY: jest.fn(),
+      obtenerDireccion: jest.fn(),
+      rotarDerecha: jest.fn(),
+      x: 0,
+      y: 0,
+      direccion: Direccion.NORTE
+    };
+    const controlador = new Controlador(sistemaRover);
+    //act
+    controlador.ejecutar(["D"]);
+    //assert
+    expect(sistemaRover.rotarDerecha).toHaveBeenCalled();
+  });
 
 });

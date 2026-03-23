@@ -8,6 +8,8 @@ class Controlador {
     instrucciones.forEach(instruccion => {
       if (instruccion === "M") {
         this.sistemaRover.avanzar();
+      } else if (instruccion === "D") {
+        this.sistemaRover.rotarDerecha();
       }
     });
     const direccion = this.sistemaRover.obtenerDireccion()?.charAt(0).toUpperCase();
