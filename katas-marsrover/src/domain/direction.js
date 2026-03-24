@@ -1,8 +1,0 @@
-const Direction = {
-  NORTH: 'N',
-  SOUTH: 'S',
-  EAST: 'E',
-  WEST: 'W',
-};
-
-module.exports = Direction;

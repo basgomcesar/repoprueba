@@ -1,20 +1,20 @@
-const Direction = require('../domain/direction');
 
 function toInitial(direction) {
   switch (direction) {
-    case Direction.NORTH:
+    case 'N':
       return 'N';
-    case Direction.SOUTH:
+    case 'S':
       return 'S';
-    case Direction.EAST:
+    case 'E':
       return 'E';
-    case Direction.WEST:
+    case 'W':
       return 'O';
     default:
       throw new Error(`Unknown direction: ${direction}`);
   }
 }
 
+// Formatea el estado del rover en "x:y:direction" (e.g., "0:0:N")
 function formatRoverState(state) {
   if (!state || typeof state.x !== 'number' || typeof state.y !== 'number' || !state.direction) {
     throw new Error('Invalid rover state');
