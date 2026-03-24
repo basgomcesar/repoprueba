@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app/app.js",
     "test": "jest --passWithNoTests",
-    "lint": "eslint *.js"
+    "lint": "eslint src/**/*.js"
   },
   "author": "nicopaez",
   "license": "ISC",

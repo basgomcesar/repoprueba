@@ -1,5 +1,3 @@
-const { S } = require("../domain/directions");
-
 function executeRoverInstructions(rover, instructions) {
   const commands = {
     M: () => rover.moveForward(),

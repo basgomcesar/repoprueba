@@ -1,5 +1,4 @@
 const DIRECTIONS = require('./directions');
-const Grid = require('./grid');
 
 class Rover {
   constructor(grid) {
