@@ -1,8 +1,8 @@
 const Direction = {
-  NORTH: 'NORTH',
-  SOUTH: 'SOUTH',
-  EAST: 'EAST',
-  WEST: 'WEST'
+  NORTH: 'N',
+  SOUTH: 'S',
+  EAST: 'E',
+  WEST: 'W',
 };
 
 module.exports = Direction;

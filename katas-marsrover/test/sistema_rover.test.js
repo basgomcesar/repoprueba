@@ -17,12 +17,14 @@ describe('Rover', () => {
     rover.moveForward();
     expect(rover.getPositionY()).toEqual(1);
   });
-  it("avanzar decrementa y cuando direccion sur", () => {
+  it("avanzar en sur causa rebote y cambio a norte", () => {
     const rover = new Rover();
     rover.rotateRight();
     rover.rotateRight();
     rover.moveForward();
-    expect(rover.getPositionY()).toEqual(-1);
+    expect(rover.getPositionY()).toEqual(1);
+    expect(rover.getDirection()).toEqual(Direction.NORTH);
+
   });
   it("rotarDerecha cambia la dirección de NORTE a ESTE", () => {
     const rover = new Rover();
