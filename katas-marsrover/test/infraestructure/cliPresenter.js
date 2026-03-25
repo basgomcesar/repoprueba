@@ -1,4 +1,4 @@
-const formatRoverState = require('../../src/infraestructure/roverStateFormatter');
+const formatRoverState = require('../../src/infraestructure/cliPresenter');
 
 describe('roverStateFormatter (adapter out)', () => {
   it('formatea NORTH como N', () => {
