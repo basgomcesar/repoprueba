@@ -1,5 +1,6 @@
 const Rover = require('../../src/domain/rover');
 const Grid = require('../../src/domain/grid');
+const Direction = require('../../src/domain/direction');
 
 
 describe('Rover ', () => {
@@ -7,7 +8,7 @@ describe('Rover ', () => {
     const rover = new Rover(new Grid(10));
     expect(rover.getPositionX()).toBe(0);
     expect(rover.getPositionY()).toBe(0);
-    expect(rover.getDirection()).toBe('N');
+    expect(rover.getDirection()).toBe(Direction.NORTH);
   });
 
   it('mueve hacia adelante', () => {
@@ -21,7 +22,7 @@ describe('Rover ', () => {
   it('gira a la derecha', () => {
     const rover = new Rover(new Grid(10));
     rover.rotateRight(); 
-    expect(rover.getDirection()).toBe('E');
+    expect(rover.getDirection()).toBe(Direction.EAST);
   });
 });
 describe('Rover - rebota en los bordes del grid y cambia de dirección', () => {
@@ -30,12 +31,12 @@ describe('Rover - rebota en los bordes del grid y cambia de dirección', () => {
 
     for (let i = 0; i < 9; i++) rover.moveForward();
     expect(rover.getPositionY()).toBe(9);
-    expect(rover.getDirection()).toBe('N');
+    expect(rover.getDirection()).toBe(Direction.NORTH);
 
     rover.moveForward(); 
 
     expect(rover.getPositionY()).toBe(8);
-    expect(rover.getDirection()).toBe('S');
+    expect(rover.getDirection()).toBe(Direction.SOUTH);
   });
 
   it('en el borde oeste: desde x=0 mirando WEST, M => x=1 mirando EAST', () => {
@@ -44,11 +45,11 @@ describe('Rover - rebota en los bordes del grid y cambia de dirección', () => {
     rover.rotateRight();
     rover.rotateRight();
     rover.rotateRight();
-    expect(rover.getDirection()).toBe('W');
+    expect(rover.getDirection()).toBe(Direction.WEST);
 
     rover.moveForward(); 
 
     expect(rover.getPositionX()).toBe(1);
-    expect(rover.getDirection()).toBe('E');
+    expect(rover.getDirection()).toBe(Direction.EAST);
   });
 });

@@ -1,15 +1,25 @@
 const runCli = require('../../src/infraestructure/cli');
 
 describe('CLI adaptadaor test', () => {
-  it('lee las instrucciones, ejecuta el caso de uso y muestra el resultado', () => {
-    const createRover = jest.fn(() => ({ x: 0, y: 0, direction: 'N' }));
-    const execute = jest.fn(() => ({ x: 0, y: 2, direction: 'N' }));
-    const presenter = jest.fn(() => '0:2:N');
-    const output = { log: jest.fn() };
+  it('ejecuta instrucciones y muestra resultado formateado', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    runCli(['node', 'app', 'MM'], { createRover, execute, presenter, output });
+    runCli(['node', 'app', 'MM']);
 
-    expect(execute).toHaveBeenCalledWith(expect.anything(), ['M', 'M']);
-    expect(output.log).toHaveBeenCalledWith('0:2:N');
+    expect(consoleSpy).toHaveBeenCalledWith('0:2:N');
+
+    consoleSpy.mockRestore();
+  });
+  it('maneja instrucciones desconocidas lanzando error', () => {
+    expect(() => runCli(['node', 'app', 'X'])).toThrow('Unknown instruction: X');
+  });
+  it('ejecuta hasta rebote y muestra resultado formateado', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+    runCli(['node', 'app', 'MMMMMMMMMM']);
+
+    expect(consoleSpy).toHaveBeenCalledWith('0:8:S');
+
+    consoleSpy.mockRestore();
   });
 });

@@ -1,3 +1,4 @@
+const Direction = require('./direction');
 class Grid {
   constructor(gridSize) {
     this.gridSize = gridSize;
@@ -5,19 +6,24 @@ class Grid {
   }
 
   bounce({ positionX, positionY }, direction) {
-    if (positionX < 0) return { x: 1, y: positionY, direction: 'E' };
+    if (positionX < 0)
+      return {
+        x: 1, y: positionY, direction: Direction.EAST
+      };
+    
     if (positionX > this.maxIndex)
       return {
-        x: this.maxIndex - 1, y: positionY, direction: 'W'
+        x: this.maxIndex - 1, y: positionY, direction: Direction.WEST
       };
 
     if (positionY < 0)
       return {
-        x: positionX, y: 1, direction: 'N'
+        x: positionX, y: 1, direction: Direction.NORTH
       };
+      
     if (positionY > this.maxIndex)
       return {
-        x: positionX, y: this.maxIndex - 1, direction: 'S'
+        x: positionX, y: this.maxIndex - 1, direction: Direction.SOUTH
       };
 
     return { x: positionX, y: positionY, direction };
