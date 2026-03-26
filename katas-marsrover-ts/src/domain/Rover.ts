@@ -35,8 +35,13 @@ export default class Rover {
 
   public moveForward(): void {
     const { dx, dy } = DIRECTIONS[this.direction];
-    this.positionX = this.positionX + dx;
-    this.positionY = this.positionY + dy;
+    const newX = this.positionX + dx;
+    const newY = this.positionY + dy;
+    const bounced = this.grid.bounce({ positionX: newX, positionY: newY }, this.direction);
+    this.positionX = bounced.x;
+    this.positionY = bounced.y;
+    this.direction = bounced.direction;
+    
   }
   public turnRight(): void {
     this.direction = DIRECTIONS[this.direction].right;

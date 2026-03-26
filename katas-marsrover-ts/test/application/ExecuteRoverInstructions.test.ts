@@ -35,7 +35,7 @@ describe("Escenarios para condicion de rebote del rover", () => {
     const rover = new Rover(grid);
     const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
     executeRoverInstructions.execute();
-    expect(rover.getPositionY()).toEqual(9);
+    expect(rover.getPositionY()).toEqual(8);
   });
   test("El rover rebota al intentar moverse fuera del grid, cambia su direccion", () => {
     const instructions = ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M"];
