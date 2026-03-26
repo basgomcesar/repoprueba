@@ -4,28 +4,44 @@ import Grid from "../../src/domain/Grid";
 import Rover from "../../src/domain/Rover";
 describe("Escenarios para ejecutar instrucciones del rover", () => {
   test("El rover se mueve hacia adelante", () => {
-    const instructions = ["M"]; 
+    const instructions = ["M"];
     const grid = new Grid(10, 10);
     const rover = new Rover(grid);
     const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
     executeRoverInstructions.execute();
     expect(rover.getPositionY()).toEqual(1);
   });
-    test("El rover gira a la derecha", () => {
-    const instructions = ["R"]; 
+  test("El rover gira a la derecha", () => {
+    const instructions = ["R"];
     const grid = new Grid(10, 10);
     const rover = new Rover(grid);
     const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
     executeRoverInstructions.execute();
     expect(rover.getDirection()).toEqual(Direction.EAST);
   });
+  test("El rover gira a la izquierda", () => {
+    const instructions = ["L"];
+    const grid = new Grid(10, 10);
+    const rover = new Rover(grid);
+    const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
+    executeRoverInstructions.execute();
+    expect(rover.getDirection()).toEqual(Direction.WEST);
+  });
   test("El rover ejecuta MMMMMM ", () => {
-    const instructions = ["M", "M", "M", "M", "M", "M"]; 
+    const instructions = ["M", "M", "M", "M", "M", "M"];
     const grid = new Grid(10, 10);
     const rover = new Rover(grid);
     const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
     executeRoverInstructions.execute();
     expect(rover.getPositionY()).toEqual(6);
+  });
+  test("El rover llega al borde del grid", () => {
+    const instructions = ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"];
+    const grid = new Grid(10, 10);
+    const rover = new Rover(grid);
+    const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
+    executeRoverInstructions.execute();
+    expect(rover.getPositionY()).toEqual(9);
   });
 });
 describe("Escenarios para condicion de rebote del rover", () => {
