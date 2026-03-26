@@ -1,4 +1,4 @@
-import runCli from "../../src/infrastructure/IOAdapter";
+import runCli from "../../src/infrastructure/CliMain";
 
 describe("IOAdapter tests para validar la integración de la clase IOAdapter con ExecuteRoverInstructions, Rover, Grid y Direction", () => {
   test("Debería ejecutar las instrucciones correctamente y devolver la posición final del rover", () => {
