@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"app/**/*.ts\" \"test/**/*.ts\"",
-    "start": "ts-node app/programa",
+    "start": "ts-node src/infrastructure/IOAdapter.ts",
     "lint": "eslint \"{app,test}/**/*.ts\" --fix",
     "test": "jest --runInBand",
     "test:cov": "jest --runInBand --coverage"

@@ -1,16 +1,24 @@
 import Rover from "src/domain/Rover";
 
-export default class ExecuteRoverInstructions {
-  constructor(private rover: Rover, private instructions: string[]) {}
-
-  public execute(): void {
-    for (const instruction of this.instructions) {
-      if (instruction === "R") {
-        this.rover.turnRight();
-      } else if (instruction === "M") {
-        this.rover.moveForward();
-      }
+export default function executeRoverInstructions(rover: Rover, instructions: string[]) {
+  const commands = {
+    M: () => rover.moveForward(),
+    D: () => rover.turnRight(),
+    I: () => rover.turnLeft(),
+  };
+  for (const inst of instructions) {
+    const command = commands[inst];
+    if (command) {
+      command();
+    } else {
+      throw new Error(`Instrucción inválida: ${inst}`);
     }
   }
+
+  return {
+    x: rover.getPositionX(),
+    y: rover.getPositionY(),
+    direction: rover.getDirection(),
+  };
 }
 
