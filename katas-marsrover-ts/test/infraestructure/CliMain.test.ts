@@ -1,6 +1,6 @@
 import runCli from "../../src/infrastructure/CliMain";
 
-describe("IOAdapter tests para validar la integración de la clase IOAdapter con ExecuteRoverInstructions, Rover, Grid y Direction", () => {
+describe("CliMain tests para validar la integración de la clase CliMain con ExecuteRoverInstructions, Rover, Grid y Direction", () => {
   test("Debería ejecutar las instrucciones correctamente y devolver la posición final del rover", () => {
     const output = runCli(["yarn", "start", "MMDMMDMM"]);
     expect(output).toBe("2:0:S");
