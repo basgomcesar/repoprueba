@@ -1,4 +1,4 @@
-import createSystem from './system';
+import createSystem from './System';
 
 export default function runCli(argv = process.argv) {
   const { createRover, execute, presenter, output } = createSystem();
