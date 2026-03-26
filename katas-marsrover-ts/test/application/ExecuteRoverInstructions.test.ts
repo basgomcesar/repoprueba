@@ -28,3 +28,22 @@ describe("Escenarios para ejecutar instrucciones del rover", () => {
     expect(rover.getPositionY()).toEqual(6);
   });
 });
+describe("Escenarios para condicion de rebote del rover", () => {
+  test("El rover rebota al intentar moverse fuera del grid, regresa a la posicion anterior", () => {
+    const instructions = ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M"];
+    const grid = new Grid(10, 10);
+    const rover = new Rover(grid);
+    const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
+    executeRoverInstructions.execute();
+    expect(rover.getPositionY()).toEqual(9);
+  });
+  test("El rover rebota al intentar moverse fuera del grid, cambia su direccion", () => {
+    const instructions = ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M"];
+    const grid = new Grid(10, 10);
+    const rover = new Rover(grid);
+    const executeRoverInstructions = new ExecuteRoverInstructions(rover, instructions);
+    executeRoverInstructions.execute();
+    expect(rover.getDirection()).toEqual(Direction.SOUTH);
+  });
+
+});
