@@ -1,6 +1,7 @@
 import { Direction } from "./Direction";
+import TerrainPort from "../application/TerrainPort";
 
-export default class Grid {
+export default class Grid implements TerrainPort {
   private width: number;
   private height: number;
 
@@ -8,36 +9,28 @@ export default class Grid {
     this.width = width;
     this.height = height;
   }
-
-  public getWidth(): number {
-    return this.width;
-  }
-
-  public getHeight(): number {
-    return this.height;
-  }
-  bounce({ positionX, positionY }, direction) {
-    if (positionX < 0)
+  bounce(position: { x: number; y: number; }, direction: Direction): { x: number; y: number; direction: Direction; }{
+    if (position.x < 0)
       return {
-        x: 1, y: positionY, direction: Direction.EAST
+        x: 1, y: position.y, direction: Direction.EAST
       };
 
-    if (positionX > this.width - 1)
+    if (position.x > this.width - 1)
       return {
-        x: this.width - 1, y: positionY, direction: Direction.WEST
+        x: this.width - 1, y: position.y, direction: Direction.WEST
       };
 
-    if (positionY < 0)
+    if (position.y < 0)
       return {
-        x: positionX, y: 1, direction: Direction.NORTH
+        x: position.x, y: 1, direction: Direction.NORTH
       };
 
-    if (positionY > this.height - 1)
+    if (position.y > this.height - 1)
       return {
-        x: positionX, y: this.height - 1, direction: Direction.SOUTH
+        x: position.x, y: this.height - 1, direction: Direction.SOUTH
       };
 
-    return { x: positionX, y: positionY, direction };
+    return { x: position.x, y: position.y, direction };
   }
 
 }

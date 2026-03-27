@@ -1,6 +1,7 @@
 import Rover from "src/domain/Rover";
+import { RoverState } from "./RoverState";
 
-export default function executeRoverInstructions(rover: Rover, instructions: string[]) {
+export default function executeRoverInstructions(rover: Rover, instructions: string[]): RoverState {
   const commands = {
     M: () => rover.moveForward(),
     D: () => rover.turnRight(),
@@ -15,10 +16,11 @@ export default function executeRoverInstructions(rover: Rover, instructions: str
     }
   }
 
-  return {
+  const finalState: RoverState = {
     x: rover.getPositionX(),
     y: rover.getPositionY(),
     direction: rover.getDirection(),
   };
+  return finalState;
 }
 
