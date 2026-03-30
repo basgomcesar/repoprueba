@@ -1,5 +1,6 @@
 import Rover from "src/domain/Rover";
 import { RoverState } from "./RoverState";
+import { InvalidInstructionError } from "../../src/domain/Exceptions/InvalidInstructionError";
 
 export default function executeRoverInstructions(rover: Rover, instructions: string[]): RoverState {
   const commands = {
@@ -12,7 +13,7 @@ export default function executeRoverInstructions(rover: Rover, instructions: str
     if (command) {
       command();
     } else {
-      throw new Error(`Instrucción inválida: ${inst}`);
+      throw new InvalidInstructionError(inst);
     }
   }
 
