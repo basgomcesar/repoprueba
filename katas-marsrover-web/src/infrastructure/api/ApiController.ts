@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { InvalidInstructionError } from '../../../src/domain/Exceptions/InvalidInstructionError';
+import { RoverSystem } from 'src/application/System';
 
 
 
 export class ApiController {
-  constructor(private system: any) {
+  constructor(private system: RoverSystem) {
 
   }
   handle(req: Request, res: Response) {

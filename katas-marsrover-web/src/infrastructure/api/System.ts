@@ -2,6 +2,7 @@ import Rover from '../../domain/Rover';
 import Grid from '../../domain/Grid';
 import executeRoverInstructions from '../../application/ExecuteRoverInstructions';
 import presenter from './RoverStateFormatter';
+import { RoverSystem } from 'src/application/System';
 
 export default function createSystem() {
 
@@ -9,5 +10,5 @@ export default function createSystem() {
     createRover: () => new Rover(new Grid(10, 10)),
     execute: executeRoverInstructions,
     presenter,
-  };
+  } as RoverSystem;
 }
