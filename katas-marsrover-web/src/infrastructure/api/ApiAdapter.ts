@@ -20,4 +20,7 @@ export class ApiAdapter {
       console.log(`API running on port ${port}`);
     });
   }
+  getApp() {
+    return this.app;
+  }
 }
