@@ -1,4 +1,4 @@
-import { Producto } from "./producto";
+import { Product } from "../src/domain/Product";
 import RepositorioProductos from "./repositorioProducto";
 
 export default class SistemaCarrito {
@@ -6,7 +6,7 @@ export default class SistemaCarrito {
     return this.repositorioProductos.obtenerProductos();
   }
   private repositorioProductos: RepositorioProductos;
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: Product) {
     this.repositorioProductos.agregarProducto(producto);
 
   }

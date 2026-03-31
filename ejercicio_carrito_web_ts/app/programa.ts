@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { RepositorioProductosEnMemoria } from "./repositorioProducto";
 import SistemaCarrito from "./sistema";
-import { Producto } from "./producto";
+import { Product } from "../src/domain/Product";
 import { ProductoYaExisteError } from "./productoyaexiste";
 const app = express();
 const port = 3000;
@@ -17,7 +17,7 @@ app.post("/compras", (req: Request, res: Response) => {
   }
   //LLAMAR A SISTEMA PARA GUARDAR EL PRODUCTO
   try {
-  sistemaCarrito.agregarProducto(new Producto(newProducto.id, newProducto.nombre, newProducto.precio, newProducto.stock));
+  sistemaCarrito.agregarProducto(new Product(newProducto.id, newProducto.nombre, newProducto.precio, newProducto.stock));
   } catch (error) {
     if (error instanceof ProductoYaExisteError) {
       return res.status(400).json({ error: error.message });
