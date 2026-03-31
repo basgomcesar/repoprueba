@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"app/**/*.ts\" \"test/**/*.ts\"",
-    "start": "ts-node src/infrastructure/api/ApiMain.ts",
+    "start": "ts-node src/infrastructure/api/app.ts",
     "lint": "eslint \"{app,test}/**/*.ts\" --fix",
     "test": "jest --runInBand",
     "test:cov": "jest --runInBand --coverage"

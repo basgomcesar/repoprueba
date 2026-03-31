@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { InvalidInstructionError } from '../../../src/domain/Exceptions/InvalidInstructionError';
+import { InvalidInstructionError } from '../../domain/Exceptions/InvalidInstructionError';
 import { RoverSystem } from 'src/application/System';
 
 
