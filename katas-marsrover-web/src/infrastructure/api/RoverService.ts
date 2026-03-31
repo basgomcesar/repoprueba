@@ -4,7 +4,7 @@ import { RoverSystem } from 'src/application/System';
 
 
 
-export class ApiController {
+export class ApiService {
   constructor(private system: RoverSystem) {
 
   }
