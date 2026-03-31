@@ -1,7 +1,7 @@
 import { describe,test,expect } from "@jest/globals";
 import RepositorioProductos from "../app/repositorioProducto";
 import SistemaCarrito from "../app/sistema";
-import { Producto } from "../app/producto";
+import { Product } from "../src/domain/Product";
 
 describe("Sistema", () => {
   test("Agrega un producto ", () => {
@@ -12,6 +12,6 @@ describe("Sistema", () => {
       }
     };
     const sistemaCarrito = new SistemaCarrito(repositorioProductos);
-    sistemaCarrito.agregarProducto(new Producto(1, "Pan de molde", 100, 50));
-    expect(repositorioProductos.agregarProducto).toHaveBeenCalledWith(new Producto(1, "Pan de molde", 100, 50));});
+    sistemaCarrito.agregarProducto(new Product(1, "Pan de molde", 100, 50));
+    expect(repositorioProductos.agregarProducto).toHaveBeenCalledWith(new Product(1, "Pan de molde", 100, 50));});
 });
