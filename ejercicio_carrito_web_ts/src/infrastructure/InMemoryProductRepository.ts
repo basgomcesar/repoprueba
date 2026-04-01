@@ -10,5 +10,4 @@ export default class InMemoryProductRepository implements ProductRepository{
     InMemoryProductRepository.products.push(product);
     return product;
   }
-  
 }
