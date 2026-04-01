@@ -4,10 +4,10 @@ import SistemaCarrito from "../app/sistema";
 import { Product } from "../src/domain/Product";
 
 describe("Sistema", () => {
-  test("Agrega un producto ", () => {
+  test("Agrega un producto con exito", () => {
     const repositorioProductos: RepositorioProductos = {
       agregarProducto: jest.fn(),
-      obtenerProductos: function (): unknown {
+      obtenerProductos: function (): Product[] {
         return [];
       }
     };
