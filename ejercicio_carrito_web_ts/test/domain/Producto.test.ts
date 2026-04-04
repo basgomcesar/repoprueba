@@ -21,15 +21,18 @@ describe("Test para producto", () => {
     product.setPrice(12.0);
     expect(product.getPrice()).toBe(12.0);
   });
+  
   it("Deberia dar error al actualizar precio negativo", () => {
     const product = new Product(1, "Producto 1", 10.0, 20);
 
     expect(() => product.setPrice(-10))
       .toThrow(InvalidDataException);
   });
+
   it("Deberia dar error al crear un producto con stock negativo", () => {
     expect(() => new Product(1, "Producto 1", 10.0, -20)).toThrow(InvalidDataException)
   });
+
   it("Deberia dar error al actualizar stock a negativo", () => {
     const product = new Product(1, "Producto 1", 10.0, 20);
     expect(() => product.setStock(-5)).toThrow(InvalidDataException);

@@ -1,3 +1,4 @@
+import InMemoryProductRepository from "../../../src/infrastructure/InMemoryProductRepository";
 import { Product } from "../../../src/domain/Product";
 import { app, server } from "../../../src/infrastructure/api/app";
 import supertest from "supertest";
@@ -97,6 +98,14 @@ describe("Pruebas para endpoint POST /api/products", () => {
 });
 
 describe("Pruebas para endpoint GET /api/products", () => {
+  beforeEach(() => {
+    InMemoryProductRepository.products.length = 0;
+  });
+
+  it("Deberia traer una lista de productos vacios cuando no hay productos creados", async () => {
+    const response = await requestWithSupertest.get("/api/products");
+    expect(response.body.length).toBe(0)
+  });
   it("Deberia traer la lista de los productos creados", async () => {
     await requestWithSupertest
       .post("/api/products")
@@ -118,11 +127,6 @@ describe("Pruebas para endpoint GET /api/products", () => {
     const response = await requestWithSupertest.get("/api/products");
     expect(response.body.length).toBe(2);
   });
-  it("Deberia traer una lista de productos vacios cuando no hay productos creados", async () => {
-    ;
-    const response = await requestWithSupertest.get("/api/products");
-    expect(response.body.length).toBe(0)
-  });
   it("Deberia traer todos los productos sin perder ninguno", async () => {
     for (let i = 1; i <= 5; i++) {
       await requestWithSupertest.post("/api/products").send({
@@ -138,7 +142,63 @@ describe("Pruebas para endpoint GET /api/products", () => {
   });
 });
 
+describe("Pruebas para endpoint PUT /api/products", () => {
+  beforeAll(() => {
+    InMemoryProductRepository.products.push(new Product(2, "Leche", 100, 50));
+  });
+
+  it("Prueba actualizar un producto con exito", async () => {
+    const product = {
+      name: "Leche de almendras",
+      price: 140,
+      stock: 30
+    };
+    const response = await requestWithSupertest
+      .put("/api/products/2")
+      .send(product);
+    expect(response.status).toBe(200);
+  });
+  //prueba actualizar producto faild to pass
+    it("Prueba actualizar un producto con stock negativo", async () => {
+    const product = {
+      name: "Leche de almendras",
+      price: 140,
+      stock: -30
+    };
+    const response = await requestWithSupertest
+      .put("/api/products/2")
+      .send(product);
+    expect(response.status).toBe(400);
+  });
+   it("Prueba actualizar un producto con precio negativo", async () => {
+    const product = {
+      name: "Leche de almendras",
+      price: -140,
+      stock: 30
+    };
+    const response = await requestWithSupertest
+      .put("/api/products/2")
+      .send(product);
+    expect(response.status).toBe(400);
+  });
+   it("Prueba actualizar un producto sin nombre", async () => {
+    const product = {
+      name: "",
+      price: 140,
+      stock: 30
+    };
+    const response = await requestWithSupertest
+      .put("/api/products/2")
+      .send(product);
+    expect(response.status).toBe(400);
+  });
+});
+
 describe("Pruebas para endpoint /api/cart", () => {
+  beforeEach(() => {
+    InMemoryProductRepository.products.length = 0;
+  });
+
   it("Prueba para crear un producto con exito", async () => {
     const product = {
       id: 2,
@@ -158,9 +218,18 @@ describe("Pruebas para endpoint /api/cart", () => {
       price: 100,
       stock: 50
     };
-    const response = await requestWithSupertest
+    const product2 = {
+      id: 2,
+      name: "Arroz",
+      price: 100,
+      stock: 50
+    };
+    await requestWithSupertest
       .post("/api/products")
       .send(product);
+    const response = await requestWithSupertest
+      .post("/api/products")
+      .send(product2);
     expect(response.status).toBe(400);
   });
 });

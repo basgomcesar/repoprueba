@@ -11,6 +11,7 @@ describe("Tests para AddProductUseCase", () => {
     const mockRepository = {
       saveProduct: jest.fn().mockReturnValue(product),
       findProductById: jest.fn().mockReturnValue(false),
+      getAllProducts: jest.fn().mockReturnValue([])
     };
 
     const repository = new InMemoryProductRepository();
