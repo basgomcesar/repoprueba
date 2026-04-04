@@ -2,6 +2,10 @@ import ProductRepository from "src/application/ProductRepository";
 import { Product } from "src/domain/Product";
 
 export default class InMemoryProductRepository implements ProductRepository{
+  getAllProducts(): Product[] {
+    const products = InMemoryProductRepository.products;
+    return products;
+  }
   findProductById(idProduct: number): boolean {
     return InMemoryProductRepository.products.find(p => p.getId() === idProduct) === undefined ? false :true;
   }
