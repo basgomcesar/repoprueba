@@ -16,7 +16,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
       id: 2,
       name: "Leche",
       price: 100,
-      stock: 50
+      stock: 50,
     };
     const response = await requestWithSupertest
       .post("/api/products")
@@ -29,7 +29,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
       id: 2,
       name: "Leche",
       price: 100,
-      stock: -50
+      stock: -50,
     };
     const response = await requestWithSupertest
       .post("/api/products")
@@ -42,7 +42,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
       id: 2,
       name: "Leche",
       price: -100,
-      stock: 50
+      stock: 50,
     };
     const response = await requestWithSupertest
       .post("/api/products")
@@ -55,7 +55,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
       id: 2,
       name: "",
       price: -100,
-      stock: 50
+      stock: 50,
     };
     const response = await requestWithSupertest
       .post("/api/products")
@@ -67,7 +67,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
     const product = {
       id: 2,
       price: -100,
-      stock: 50
+      stock: 50,
     };
     const response = await requestWithSupertest
       .post("/api/products")
@@ -80,23 +80,20 @@ describe("Pruebas para endpoint POST /api/products", () => {
       id: 2,
       name: "Galletas de fresa",
       price: 100,
-      stock: 50
+      stock: 50,
     };
     const product2 = {
       id: 2,
       name: "Galletas de avena",
       price: 100,
-      stock: 50
+      stock: 50,
     };
-    await requestWithSupertest
-      .post("/api/products")
-      .send(product);
+    await requestWithSupertest.post("/api/products").send(product);
     const response = await requestWithSupertest
       .post("/api/products")
       .send(product2);
     expect(response.status).toBe(400);
   });
-
 });
 
 describe("Pruebas para endpoint GET /api/products", () => {
@@ -106,27 +103,23 @@ describe("Pruebas para endpoint GET /api/products", () => {
 
   it("Deberia traer una lista de productos vacios cuando no hay productos creados", async () => {
     const response = await requestWithSupertest.get("/api/products");
-    expect(response.body.length).toBe(0)
+    expect(response.body.length).toBe(0);
   });
 
   it("Deberia traer la lista de los productos creados", async () => {
-    await requestWithSupertest
-      .post("/api/products")
-      .send({
-        id: 1,
-        name: "Leche",
-        price: 100,
-        stock: 10
-      });
+    await requestWithSupertest.post("/api/products").send({
+      id: 1,
+      name: "Leche",
+      price: 100,
+      stock: 10,
+    });
 
-    await requestWithSupertest
-      .post("/api/products")
-      .send({
-        id: 2,
-        name: "Pan",
-        price: 50,
-        stock: 20
-      });
+    await requestWithSupertest.post("/api/products").send({
+      id: 2,
+      name: "Pan",
+      price: 50,
+      stock: 20,
+    });
     const response = await requestWithSupertest.get("/api/products");
     expect(response.body.length).toBe(2);
   });
@@ -137,7 +130,7 @@ describe("Pruebas para endpoint GET /api/products", () => {
         id: i,
         name: `Producto ${i}`,
         price: 10 * i,
-        stock: i
+        stock: i,
       });
     }
     const response = await requestWithSupertest.get("/api/products");
@@ -155,7 +148,7 @@ describe("Pruebas para endpoint PUT /api/products", () => {
     const product = {
       name: "Leche de almendras",
       price: 140,
-      stock: 30
+      stock: 30,
     };
     const response = await requestWithSupertest
       .put("/api/products/2")
@@ -168,7 +161,7 @@ describe("Pruebas para endpoint PUT /api/products", () => {
     const product = {
       name: "Leche de almendras",
       price: 140,
-      stock: -30
+      stock: -30,
     };
     const response = await requestWithSupertest
       .put("/api/products/2")
@@ -180,19 +173,19 @@ describe("Pruebas para endpoint PUT /api/products", () => {
     const product = {
       name: "Leche de almendras",
       price: -140,
-      stock: 30
+      stock: 30,
     };
     const response = await requestWithSupertest
       .put("/api/products/2")
       .send(product);
     expect(response.status).toBe(400);
   });
-  
+
   it("Prueba actualizar un producto sin nombre", async () => {
     const product = {
       name: "",
       price: 140,
-      stock: 30
+      stock: 30,
     };
     const response = await requestWithSupertest
       .put("/api/products/2")
@@ -209,22 +202,22 @@ describe("Pruebas para endpoint /api/carts", () => {
 
   it("Deberia agregar un producto al carrito con exito", async () => {
     //Crear usuario primero
-    InMemoryProductRepository.users.push(new User(123, "Usuario 123", "usuario123@example.com"));
+    InMemoryProductRepository.users.push(
+      new User(123, "Usuario 123", "usuario123@example.com"),
+    );
     // Crear producto primero
     await requestWithSupertest.post("/api/products").send({
       id: 1,
       name: "Leche",
       price: 100,
-      stock: 10
+      stock: 10,
     });
 
-    const response = await requestWithSupertest
-      .post("/api/carts")
-      .send({
-        productId: 1,
-        quantity: 2,
-        userId: 123
-      });
+    const response = await requestWithSupertest.post("/api/carts").send({
+      productId: 1,
+      quantity: 2,
+      userId: 123,
+    });
 
     expect(response.status).toBe(200);
     expect(response.body).toBeDefined();
@@ -232,13 +225,11 @@ describe("Pruebas para endpoint /api/carts", () => {
   });
 
   it("Deberia regresar error si el producto no existe", async () => {
-    const response = await requestWithSupertest
-      .post("/api/carts")
-      .send({
-        productId: 999,
-        quantity: 2,
-        userId: 123
-      });
+    const response = await requestWithSupertest.post("/api/carts").send({
+      productId: 999,
+      quantity: 2,
+      userId: 123,
+    });
 
     expect(response.status).toBe(400);
   });
@@ -248,16 +239,14 @@ describe("Pruebas para endpoint /api/carts", () => {
       id: 1,
       name: "Leche",
       price: 100,
-      stock: 10
+      stock: 10,
     });
 
-    const response = await requestWithSupertest
-      .post("/api/carts")
-      .send({
-        productId: 1,
-        quantity: -2,
-        userId: 123
-      });
+    const response = await requestWithSupertest.post("/api/carts").send({
+      productId: 1,
+      quantity: -2,
+      userId: 123,
+    });
 
     expect(response.status).toBe(400);
   });
@@ -267,16 +256,14 @@ describe("Pruebas para endpoint /api/carts", () => {
       id: 1,
       name: "Leche",
       price: 100,
-      stock: 2
+      stock: 2,
     });
 
-    const response = await requestWithSupertest
-      .post("/api/carts")
-      .send({
-        productId: 1,
-        quantity: 5,
-        userId: 123
-      });
+    const response = await requestWithSupertest.post("/api/carts").send({
+      productId: 1,
+      quantity: 5,
+      userId: 123,
+    });
 
     expect(response.status).toBe(400);
   });
@@ -286,19 +273,19 @@ describe("Pruebas para endpoint /api/carts", () => {
       id: 1,
       name: "Leche",
       price: 100,
-      stock: 10
+      stock: 10,
     });
 
     await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 2,
-      userId: 123
+      userId: 123,
     });
 
     const response = await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 3,
-      userId: 123
+      userId: 123,
     });
 
     expect(response.status).toBe(200);
@@ -310,13 +297,13 @@ describe("Pruebas para endpoint /api/carts", () => {
       id: 1,
       name: "Leche",
       price: 100,
-      stock: 10
+      stock: 10,
     });
 
     await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 2,
-      userId: 123
+      userId: 123,
     });
 
     const response = await requestWithSupertest.get("/api/products");
@@ -325,11 +312,9 @@ describe("Pruebas para endpoint /api/carts", () => {
   });
 
   it("Deberia regresar error si faltan campos", async () => {
-    const response = await requestWithSupertest
-      .post("/api/carts")
-      .send({
-        productId: 1
-      });
+    const response = await requestWithSupertest.post("/api/carts").send({
+      productId: 1,
+    });
 
     expect(response.status).toBe(400);
   });

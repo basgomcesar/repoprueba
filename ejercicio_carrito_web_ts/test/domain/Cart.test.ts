@@ -19,7 +19,7 @@ describe("Cart", () => {
     const cart = new Cart(user);
     expect(cart.getUser()).toBe(user);
   });
-  
+
   it("El carrito se inicializa con un array vacío de productos", () => {
     const user = new User(1, "Juan Pérez", "juan.perez@example.com");
     const cart = new Cart(user);

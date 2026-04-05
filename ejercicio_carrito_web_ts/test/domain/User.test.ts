@@ -15,4 +15,3 @@ describe("Pruebas para la clase User", () => {
     expect(user.getEmail()).toBe("juan.p@ejemplo.com");
   });
 });
-

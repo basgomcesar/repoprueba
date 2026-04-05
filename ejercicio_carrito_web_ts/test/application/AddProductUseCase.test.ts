@@ -1,5 +1,4 @@
 import { Product } from "../../src/domain/Product";
-import InvalidDataException from "../../src/domain/exceptions/InvalidDataException";
 import DuplicateEntityException from "../../src/domain/exceptions/DuplicateEntityException";
 import InMemoryProductRepository from "../../src/infrastructure/InMemoryProductRepository";
 import { AddProductUseCase } from "../../src/application/AddProductUseCase";
@@ -19,9 +18,10 @@ describe("Tests para AddProductUseCase", () => {
       getUserById: jest.fn().mockReturnValue(undefined),
     };
 
-    const repository = new InMemoryProductRepository();
-    const addProduct = new AddProductUseCase(mockRepository as ProductRepository);
-    const result = addProduct.createProduct(product);
+    const addProduct = new AddProductUseCase(
+      mockRepository as ProductRepository,
+    );
+    addProduct.createProduct(product);
     expect(mockRepository.saveProduct).toHaveBeenCalledTimes(1);
   });
 
@@ -31,6 +31,8 @@ describe("Tests para AddProductUseCase", () => {
     const repository = new InMemoryProductRepository();
     const addProduct = new AddProductUseCase(repository);
     addProduct.createProduct(product);
-    expect(() =>  addProduct.createProduct(productGalletas)).toThrow(DuplicateEntityException);
+    expect(() => addProduct.createProduct(productGalletas)).toThrow(
+      DuplicateEntityException,
+    );
   });
 });
