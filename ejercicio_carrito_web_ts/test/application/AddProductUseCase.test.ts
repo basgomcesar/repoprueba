@@ -3,7 +3,7 @@ import InvalidDataException from "../../src/domain/exceptions/InvalidDataExcepti
 import DuplicateEntityException from "../../src/domain/exceptions/DuplicateEntityException";
 import InMemoryProductRepository from "../../src/infrastructure/InMemoryProductRepository";
 import { AddProductUseCase } from "../../src/application/AddProductUseCase";
-import ProductRepository from "src/application/ProductRepository";
+import ProductRepository from "../../src/application/ProductRepository";
 
 describe("Tests para AddProductUseCase", () => {
   it("Se llama al metodo saveProduct en el repository", () => {
@@ -13,7 +13,10 @@ describe("Tests para AddProductUseCase", () => {
       findProductById: jest.fn().mockReturnValue(false),
       getAllProducts: jest.fn().mockReturnValue([]),
       getProductById: jest.fn().mockReturnValue(undefined),
-      updateProduct: jest.fn()
+      updateProduct: jest.fn(),
+      saveCart: jest.fn().mockReturnValue(undefined),
+      getCartByUserId: jest.fn().mockReturnValue(undefined),
+      getUserById: jest.fn().mockReturnValue(undefined),
     };
 
     const repository = new InMemoryProductRepository();

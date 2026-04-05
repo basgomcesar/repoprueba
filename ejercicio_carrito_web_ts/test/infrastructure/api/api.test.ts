@@ -2,6 +2,7 @@ import InMemoryProductRepository from "../../../src/infrastructure/InMemoryProdu
 import { Product } from "../../../src/domain/Product";
 import { app, server } from "../../../src/infrastructure/api/app";
 import supertest from "supertest";
+import { User } from "../../../src/domain/User";
 
 const requestWithSupertest = supertest(app);
 
@@ -73,6 +74,7 @@ describe("Pruebas para endpoint POST /api/products", () => {
       .send(product);
     expect(response.status).toBe(400);
   });
+
   it("Deberia regresar un error al tratar de crear un producto con IDs duplicados", async () => {
     const product = {
       id: 2,
@@ -106,6 +108,7 @@ describe("Pruebas para endpoint GET /api/products", () => {
     const response = await requestWithSupertest.get("/api/products");
     expect(response.body.length).toBe(0)
   });
+
   it("Deberia traer la lista de los productos creados", async () => {
     await requestWithSupertest
       .post("/api/products")
@@ -127,6 +130,7 @@ describe("Pruebas para endpoint GET /api/products", () => {
     const response = await requestWithSupertest.get("/api/products");
     expect(response.body.length).toBe(2);
   });
+
   it("Deberia traer todos los productos sin perder ninguno", async () => {
     for (let i = 1; i <= 5; i++) {
       await requestWithSupertest.post("/api/products").send({
@@ -158,6 +162,7 @@ describe("Pruebas para endpoint PUT /api/products", () => {
       .send(product);
     expect(response.status).toBe(200);
   });
+
   //prueba actualizar producto faild to pass
   it("Prueba actualizar un producto con stock negativo", async () => {
     const product = {
@@ -170,6 +175,7 @@ describe("Pruebas para endpoint PUT /api/products", () => {
       .send(product);
     expect(response.status).toBe(400);
   });
+
   it("Prueba actualizar un producto con precio negativo", async () => {
     const product = {
       name: "Leche de almendras",
@@ -181,6 +187,7 @@ describe("Pruebas para endpoint PUT /api/products", () => {
       .send(product);
     expect(response.status).toBe(400);
   });
+  
   it("Prueba actualizar un producto sin nombre", async () => {
     const product = {
       name: "",
@@ -194,12 +201,15 @@ describe("Pruebas para endpoint PUT /api/products", () => {
   });
 });
 
-describe("Pruebas para endpoint /api/cart", () => {
+describe("Pruebas para endpoint /api/carts", () => {
   beforeEach(() => {
     InMemoryProductRepository.products.length = 0;
+    InMemoryProductRepository.carts.length = 0;
   });
 
   it("Deberia agregar un producto al carrito con exito", async () => {
+    //Crear usuario primero
+    InMemoryProductRepository.users.push(new User(123, "Usuario 123", "usuario123@example.com"));
     // Crear producto primero
     await requestWithSupertest.post("/api/products").send({
       id: 1,
@@ -209,7 +219,7 @@ describe("Pruebas para endpoint /api/cart", () => {
     });
 
     const response = await requestWithSupertest
-      .post("/api/cart")
+      .post("/api/carts")
       .send({
         productId: 1,
         quantity: 2,
@@ -218,19 +228,19 @@ describe("Pruebas para endpoint /api/cart", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toBeDefined();
-    expect(response.body.products.length).toBe(1);
+    expect(response.body.cart.products.length).toBe(1);
   });
 
   it("Deberia regresar error si el producto no existe", async () => {
     const response = await requestWithSupertest
-      .post("/api/cart")
+      .post("/api/carts")
       .send({
         productId: 999,
         quantity: 2,
         userId: 123
       });
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(400);
   });
 
   it("Deberia regresar error si la cantidad es negativa", async () => {
@@ -242,7 +252,7 @@ describe("Pruebas para endpoint /api/cart", () => {
     });
 
     const response = await requestWithSupertest
-      .post("/api/cart")
+      .post("/api/carts")
       .send({
         productId: 1,
         quantity: -2,
@@ -261,7 +271,7 @@ describe("Pruebas para endpoint /api/cart", () => {
     });
 
     const response = await requestWithSupertest
-      .post("/api/cart")
+      .post("/api/carts")
       .send({
         productId: 1,
         quantity: 5,
@@ -279,20 +289,20 @@ describe("Pruebas para endpoint /api/cart", () => {
       stock: 10
     });
 
-    await requestWithSupertest.post("/api/cart").send({
+    await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 2,
       userId: 123
     });
 
-    const response = await requestWithSupertest.post("/api/cart").send({
+    const response = await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 3,
       userId: 123
     });
 
     expect(response.status).toBe(200);
-    expect(response.body.products[0].quantity).toBe(5);
+    expect(response.body.cart.products[0].quantity).toBe(5);
   });
 
   it("NO deberia modificar el stock del producto", async () => {
@@ -303,7 +313,7 @@ describe("Pruebas para endpoint /api/cart", () => {
       stock: 10
     });
 
-    await requestWithSupertest.post("/api/cart").send({
+    await requestWithSupertest.post("/api/carts").send({
       productId: 1,
       quantity: 2,
       userId: 123
@@ -316,7 +326,7 @@ describe("Pruebas para endpoint /api/cart", () => {
 
   it("Deberia regresar error si faltan campos", async () => {
     const response = await requestWithSupertest
-      .post("/api/cart")
+      .post("/api/carts")
       .send({
         productId: 1
       });
