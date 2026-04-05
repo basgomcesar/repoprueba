@@ -25,6 +25,9 @@ export class Product {
     }
     this.price = price;
   }
+  setName(name: string): void {
+    this.name = name;
+  }
   getStock(): number {
     return this.stock;
   }

@@ -1,4 +1,3 @@
-import { describe,test,expect } from "@jest/globals";
 import RepositorioProductos from "../app/repositorioProducto";
 import SistemaCarrito from "../app/sistema";
 import { Product } from "../src/domain/Product";
