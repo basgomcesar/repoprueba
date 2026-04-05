@@ -4,6 +4,7 @@ import InMemoryProductRepository from "../InMemoryProductRepository";
 import { AddProductUseCase } from "../../../src/application/AddProductUseCase";
 import { ProductController } from "./controller/product.controller";
 import { GetProductUseCase } from "../../../src/application/GetProductUseCase";
+import UpdateProductUseCase from "../../../src/application/UpdateProductUseCase";
 const app = express();
 const port = 3000;
 app.use(express.json());
@@ -12,7 +13,8 @@ app.use(express.json());
 const productRepo = new InMemoryProductRepository();
 const addProduct = new AddProductUseCase(productRepo);
 const getProduct = new GetProductUseCase(productRepo);
-const productController = new ProductController(addProduct,getProduct);
+const updateProduct = new UpdateProductUseCase(productRepo);
+const productController = new ProductController(addProduct,getProduct,updateProduct);
 
 app.use("/api/products", createProductRoutes(productController));
 

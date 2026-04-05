@@ -1,6 +1,6 @@
 export default class InvalidDataException implements Error{
   constructor(message: string){
-    this.message = "Datos invalidos";
+    this.message = message || "Datos invalidos";
     this.name = "InvalidDataException";
   }
   name: string;

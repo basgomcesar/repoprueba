@@ -6,6 +6,7 @@ export function createProductRoutes(controller: ProductController) {
 
   router.post("/", controller.add.bind(controller));
   router.get("/", controller.getAll.bind(controller));
+  router.put("/:id", controller.update.bind(controller));
 
   return router;
 }
