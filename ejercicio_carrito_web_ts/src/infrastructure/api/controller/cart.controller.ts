@@ -38,8 +38,8 @@ export class CartController {
       if (!userId) {
         return res.status(400).json({ error: "Falta el campo userId" });
       }
-      this.checkoutUseCase.checkout(userId);
-      res.status(200).json({ message: "Checkout realizado con éxito" });
+      const purchase = this.checkoutUseCase.checkout(userId);
+      res.status(200).json({ message: "Checkout realizado con éxito", purchase });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

@@ -17,7 +17,7 @@ export class ProductController {
     try {
       const { id, name, price, stock } = req.body;
 
-      // Validación basica (cambiar)
+      
       if (!name || !price) {
         res.status(400).json({ error: "nombre y precio son requeridos" });
         return;

@@ -319,3 +319,58 @@ describe("Pruebas para endpoint /api/carts", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("Pruebas para endpoint POST /api/carts/checkout", () => {
+  beforeEach(() => {
+    InMemoryProductRepository.products.length = 0;
+    InMemoryProductRepository.carts.length = 0;
+    InMemoryProductRepository.users.length = 0;
+  });
+
+  it("Deberia hacer checkout con exito", async () => {
+    InMemoryProductRepository.users.push(
+      new User(123, "Usuario 123", "usuario123@example.com"),
+    );
+    await requestWithSupertest.post("/api/products").send({
+      id: 1,
+      name: "Leche",
+      price: 100,
+      stock: 10,
+    });
+
+    await requestWithSupertest.post("/api/carts").send({
+      productId: 1,
+      quantity: 3,
+      userId: 123,
+    });
+
+    const response = await requestWithSupertest
+      .post("/api/carts/checkout")
+      .send({ userId: 123 });
+
+    expect(response.status).toBe(200);
+    expect(response.body.purchase.total).toBe(300);
+    expect(response.body.purchase.items.length).toBe(1);
+    expect(response.body.purchase.items[0].productId).toBe(1);
+    expect(response.body.purchase.items[0].quantity).toBe(3);
+  });
+
+  it("Deberia lanzar error si el usuario no existe", async () => {
+    const response = await requestWithSupertest.post("/api/carts/checkout").send({
+      userId: 999,
+    });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("Deberia lanzar error si el carrito está vacío", async () => {
+    InMemoryProductRepository.users.push(
+      new User(123, "Usuario 123", "usuario123@example.com"),
+    );
+    const response = await requestWithSupertest.post("/api/carts/checkout").send({
+      userId: 123,
+    });
+
+    expect(response.status).toBe(400);
+  });
+});

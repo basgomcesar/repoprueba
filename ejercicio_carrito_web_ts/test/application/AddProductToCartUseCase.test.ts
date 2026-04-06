@@ -20,6 +20,7 @@ describe("Test para AddProductToCartUseCase", () => {
         .mockReturnValue(new User(123, "Usuario 123", "user@gmail.com")),
       saveCart: jest.fn().mockReturnValue(undefined),
       getCartByUserId: jest.fn().mockReturnValue(undefined),
+        clearCart: jest.fn().mockReturnValue(false),
     };
 
     const addToCartUseCase = new AddProductToCartUseCase(

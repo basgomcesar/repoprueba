@@ -7,6 +7,5 @@ export class GetProductUseCase{
   }
   constructor( private readonly repository: ProductRepository ){
   }
-
   
 }

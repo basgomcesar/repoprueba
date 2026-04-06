@@ -16,6 +16,7 @@ describe("Tests para AddProductUseCase", () => {
       saveCart: jest.fn().mockReturnValue(undefined),
       getCartByUserId: jest.fn().mockReturnValue(undefined),
       getUserById: jest.fn().mockReturnValue(undefined),
+      clearCart: jest.fn().mockReturnValue(false),
     };
 
     const addProduct = new AddProductUseCase(

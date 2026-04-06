@@ -5,7 +5,7 @@ export function createCartRoutes(controller: CartController) {
   const router = Router();
 
   router.post("/", controller.addToCart.bind(controller));
-  router.post("/checkout", (req, res) => {res.send("Checkout not implemented yet")});
+  router.post("/checkout", controller.checkout.bind(controller));
 
   return router;
 }
