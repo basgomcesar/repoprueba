@@ -11,7 +11,6 @@ export class CheckoutUseCase {
     if (!user) {
       throw new Error("Usuario no encontrado");
     }
-
     
     const cart = this.repository.getCartByUserId(userId);
     const itemsCart = cart.getItemCarts();
@@ -20,7 +19,6 @@ export class CheckoutUseCase {
       throw new Error("El carrito está vacío");
     }
 
-    
     for (const item of itemsCart) {
       const product = item.getProduct();
       if (!product || product.getStock() < item.getQuantity()) {
@@ -28,7 +26,6 @@ export class CheckoutUseCase {
       }
     }
 
-   
     let total = 0;
     for (const item of itemsCart) {
       const product = item.getProduct();
@@ -38,10 +35,8 @@ export class CheckoutUseCase {
       total += product.getPrice() * quantity;
     }
 
-    
     this.repository.clearCart(userId);
 
-    
     const purchaseItems:PurchaseItem[] = itemsCart.map(item => {
       const product = item.getProduct();
       return new PurchaseItem(

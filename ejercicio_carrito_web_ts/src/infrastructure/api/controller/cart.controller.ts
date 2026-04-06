@@ -39,7 +39,18 @@ export class CartController {
         return res.status(400).json({ error: "Falta el campo userId" });
       }
       const purchase = this.checkoutUseCase.checkout(userId);
-      res.status(200).json({ message: "Checkout realizado con éxito", purchase });
+      res.status(200).json({ message: "Checkout realizado con éxito",
+        purchase: {
+          userId: purchase.getUserId(),
+          total: purchase.getTotal(),
+          items: purchase.getItems().map(item => ({
+            productId: item.getProductId(),
+            name: item.getName(),
+            price: item.getPrice(),
+            quantity: item.getQuantity()
+          }))
+        }
+      });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

@@ -100,6 +100,8 @@ describe("Test para AddProductToCartUseCase", () => {
       getProductById: jest
         .fn()
         .mockReturnValue(new Product(1, "Producto 1", 10.0, 5)),
+      getCartByUserId: jest.fn().mockReturnValue(undefined),
+      saveCart: jest.fn(),
     };
 
     const useCase = new AddProductToCartUseCase(
@@ -179,6 +181,8 @@ describe("Test para AddProductToCartUseCase", () => {
       getProductById: jest
         .fn()
         .mockReturnValue(new Product(1, "Producto 1", 10.0, 0)),
+      getCartByUserId: jest.fn().mockReturnValue(undefined),
+      saveCart: jest.fn(),
     };
 
     const useCase = new AddProductToCartUseCase(
