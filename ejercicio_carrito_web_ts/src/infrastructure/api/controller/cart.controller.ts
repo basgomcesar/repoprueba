@@ -4,9 +4,16 @@ import { Request, Response } from "express";
 import { CheckoutUseCase } from "../../../application/CheckoutUseCase";
 
 export class CartController {
-  constructor(private readonly addProductToCartUseCase: AddProductToCartUseCase,
-    private readonly checkoutUseCase: CheckoutUseCase
-  ) {}
+
+  private readonly addProductToCartUseCase: AddProductToCartUseCase;
+  private readonly checkoutUseCase: CheckoutUseCase;
+
+  constructor(addProductToCartUseCase: AddProductToCartUseCase,
+    checkoutUseCase: CheckoutUseCase
+  ) {
+    this.addProductToCartUseCase = addProductToCartUseCase;
+    this.checkoutUseCase = checkoutUseCase;
+  }
 
   addToCart(req: Request, res: Response) {
     try {
@@ -32,6 +39,7 @@ export class CartController {
       res.status(400).json({ error: error.message });
     }
   }
+  
   checkout(req: Request, res: Response) {
     try {
       const { userId } = req.body;
@@ -39,7 +47,8 @@ export class CartController {
         return res.status(400).json({ error: "Falta el campo userId" });
       }
       const purchase = this.checkoutUseCase.checkout(userId);
-      res.status(200).json({ message: "Checkout realizado con éxito",
+      res.status(200).json({
+        message: "Checkout realizado con éxito",
         purchase: {
           userId: purchase.getUserId(),
           total: purchase.getTotal(),

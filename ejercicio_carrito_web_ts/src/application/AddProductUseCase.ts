@@ -6,6 +6,10 @@ export class AddProductUseCase {
 
   private readonly repository: ProductRepository;
 
+  constructor(repository: ProductRepository) {
+    this.repository = repository;
+  }
+
   createProduct(product: Product): Product {
     const existingProduct: boolean = this.repository.findProductById(product.getId());
     if (existingProduct) {
@@ -13,8 +17,4 @@ export class AddProductUseCase {
     }
     return this.repository.saveProduct(product);
   }
-  constructor(repository: ProductRepository) {
-    this.repository = repository;
-  }
-
 }

@@ -12,7 +12,16 @@ describe("Tests para CheckoutUseCase", () => {
       getItemCarts: jest.fn().mockReturnValue(products),
       getTotal: jest.fn().mockReturnValue(
         products.reduce((acc, item) => acc + item.getQuantity() * item.getProduct().getPrice(), 0)
-      )
+      ),
+      verifyIfProductsInStock: jest.fn().mockImplementation(() => {
+        for (const item of products) {
+          const product = item.getProduct();
+          if (product.getStock() < item.getQuantity()) {
+            throw new Error("Stock insuficiente");
+          }
+        }
+      }),
+      getUser: jest.fn().mockReturnValue(user)
     };
   };
 
@@ -34,7 +43,7 @@ describe("Tests para CheckoutUseCase", () => {
     const product = new Product(1, "Producto 1", 10, 10);
 
     const cart = createMockCart([
-      createItem(product, 2)
+      createItem(product, 2),
     ]);
 
     const mockRepository = {

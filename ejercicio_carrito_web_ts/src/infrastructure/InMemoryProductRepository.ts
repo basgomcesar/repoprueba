@@ -5,8 +5,12 @@ import { User } from "../../src/domain/User";
 
 export default class InMemoryProductRepository implements ProductRepository {
   static products: Product[] = [];
-  static users: User[] = [];
+  static users: User[] = [
+    new User(1, "Juan Perez", "juan@example.com"),
+    new User(2, "Maria Gomez", "maria@example.com")
+  ];
   static carts: Cart[] = [];
+
   clearCart(userId: number): boolean {
     const cartIndex = InMemoryProductRepository.carts.findIndex(c => c.getUser().getId() === userId);
     if (cartIndex !== -1) {
@@ -25,6 +29,7 @@ export default class InMemoryProductRepository implements ProductRepository {
     }
     return cart;
   }
+
   getCartByUserId(userId: number): Cart {
     const cart = InMemoryProductRepository.carts.find(c => c.getUser().getId() === userId);
     if (!cart) {
@@ -64,7 +69,7 @@ export default class InMemoryProductRepository implements ProductRepository {
   findProductById(idProduct: number): boolean {
     return InMemoryProductRepository.products.find(p => p.getId() === idProduct) === undefined ? false : true;
   }
-  
+
   saveProduct(product: Product): Product {
     InMemoryProductRepository.products.push(product);
     return product;

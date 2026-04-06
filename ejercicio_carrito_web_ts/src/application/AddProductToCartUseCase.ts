@@ -5,7 +5,11 @@ import { User } from "../../src/domain/User";
 import { CartItem } from "../../src/domain/CartItem";
 
 export default class AddProductToCartUseCase {
-  constructor(private readonly repository: ProductRepository) {}
+  private readonly repository: ProductRepository;
+
+  constructor(repository: ProductRepository) {
+    this.repository = repository;
+  }
 
   addToCart(idProduct: number, quantity: number, userId: number): Cart {
     const product = this.getProductOrThrow(idProduct);

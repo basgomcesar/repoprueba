@@ -7,19 +7,32 @@ import DuplicateEntityException from "../../../../src/domain/exceptions/Duplicat
 import UpdateProductUseCase from "../../../../src/application/UpdateProductUseCase";
 
 export class ProductController {
+
+  private readonly addProductUseCase: AddProductUseCase;
+  private readonly getProductUseCase: GetProductUseCase;
+  private readonly updateProductUseCase: UpdateProductUseCase;
+
   constructor(
-    private readonly addProductUseCase: AddProductUseCase,
-    private readonly getProductUseCase: GetProductUseCase,
-    private readonly updateProductUseCase: UpdateProductUseCase
-  ) { }
+    addProductUseCase: AddProductUseCase,
+    getProductUseCase: GetProductUseCase,
+    updateProductUseCase: UpdateProductUseCase
+  ) {
+    this.addProductUseCase = addProductUseCase;
+    this.getProductUseCase = getProductUseCase;
+    this.updateProductUseCase = updateProductUseCase;
+  }
 
   async add(req: Request, res: Response): Promise<void> {
     try {
       const { id, name, price, stock } = req.body;
 
-      
+
       if (!name || !price) {
         res.status(400).json({ error: "nombre y precio son requeridos" });
+        return;
+      }
+      if (typeof id !== "number" || typeof name !== "string" || typeof price !== "number" || (stock !== undefined && typeof stock !== "number")) {
+        res.status(400).json({ error: "Datos inválidos: id debe ser un número, name debe ser una cadena, price debe ser un número y stock debe ser un número si se proporciona" });
         return;
       }
 
@@ -44,6 +57,7 @@ export class ProductController {
       });
     }
   }
+  
   async getAll(req: Request, res: Response): Promise<void> {
     try {
       const products = this.getProductUseCase.getAll();
@@ -55,6 +69,7 @@ export class ProductController {
 
     }
   }
+
   async update(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
