@@ -5,7 +5,7 @@ import { User } from "./../../src/domain/User";
 export default interface ProductRepository {
   clearCart(userId: number): boolean;
   saveCart(cart: Cart): Cart;
-  getCartByUserId(userId: number): Cart;
+  getCartByUserId(userId: number): Cart | null;
   getAllProducts(): Product[];
   findProductById(idProduct: number): boolean;
   getProductById(idProduct: number): Product;

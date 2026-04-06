@@ -18,6 +18,10 @@ export class CheckoutUseCase {
     }
 
     const cart = this.repository.getCartByUserId(userId);
+    if (!cart) {
+      throw new Error("Carrito no encontrado");
+    }
+
     const itemsCart = cart.getItemCarts();
 
     if (itemsCart.length === 0) {

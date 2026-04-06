@@ -82,7 +82,7 @@ describe("Tests para CheckoutUseCase", () => {
 
     const useCase = new CheckoutUseCase(mockRepository as any);
 
-    expect(() => useCase.checkout(123)).toThrow("Cannot read"); 
+    expect(() => useCase.checkout(123)).toThrow("Carrito no encontrado");
   
   });
 

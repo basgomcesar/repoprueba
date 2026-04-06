@@ -30,12 +30,9 @@ export default class InMemoryProductRepository implements ProductRepository {
     return cart;
   }
 
-  getCartByUserId(userId: number): Cart {
+  getCartByUserId(userId: number): Cart | null {
     const cart = InMemoryProductRepository.carts.find(c => c.getUser().getId() === userId);
-    if (!cart) {
-      return new Cart(this.getUserById(userId));
-    }
-    return cart;
+    return cart || null;
   }
 
   getUserById(idUser: number): User {
