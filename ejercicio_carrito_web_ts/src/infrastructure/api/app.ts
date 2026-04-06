@@ -2,11 +2,11 @@ import express, { Request, Response } from "express";
 import { createProductRoutes } from "./routes/product.route";
 import InMemoryProductRepository from "../InMemoryProductRepository";
 import { AddProductUseCase } from "../../../src/application/AddProductUseCase";
-import { ProductController } from "./controller/product.controller";
+import { ProductService } from "./controller/product.service";
 import { GetProductUseCase } from "../../../src/application/GetProductUseCase";
 import UpdateProductUseCase from "../../../src/application/UpdateProductUseCase";
 import { createCartRoutes } from "./routes/cart.route";
-import { CartController } from "./controller/cart.controller";
+import { CartService } from "./controller/cart.service";
 import AddProductToCartUseCase from "../../../src/application/AddProductToCartUseCase";
 import { CheckoutUseCase } from "../../../src/application/CheckoutUseCase";
 const app = express();
@@ -18,14 +18,14 @@ const productRepo = new InMemoryProductRepository();
 const addProduct = new AddProductUseCase(productRepo);
 const getProduct = new GetProductUseCase(productRepo);
 const updateProduct = new UpdateProductUseCase(productRepo);
-const productController = new ProductController(addProduct,getProduct,updateProduct);
+const productService = new ProductService(addProduct, getProduct, updateProduct);
 
 const addProductToCartUseCase = new AddProductToCartUseCase(productRepo);
 const checkoutUseCase = new CheckoutUseCase(productRepo);
-const cartController = new CartController(addProductToCartUseCase, checkoutUseCase);
+const cartService = new CartService(addProductToCartUseCase, checkoutUseCase);
 
-app.use("/api/products", createProductRoutes(productController));
-app.use("/api/carts", createCartRoutes(cartController));
+app.use("/api/products", createProductRoutes(productService));
+app.use("/api/carts", createCartRoutes(cartService));
 
 const server = app
   .listen(port, () => {

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { ProductController } from "../controller/product.controller";
+import { ProductService } from "../controller/product.service";
 
-export function createProductRoutes(controller: ProductController) {
+export function createProductRoutes(service: ProductService): Router {
   const router = Router();
 
-  router.post("/", controller.add.bind(controller));
-  router.get("/", controller.getAll.bind(controller));
-  router.put("/:id", controller.update.bind(controller));
+  router.post("/", service.add.bind(service));
+  router.get("/", service.getAll.bind(service));
+  router.put("/:id", service.update.bind(service));
 
   return router;
 }

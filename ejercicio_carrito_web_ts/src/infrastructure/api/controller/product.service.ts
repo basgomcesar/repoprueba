@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { AddProductUseCase } from "../../../application/AddProductUseCase";
 import { GetProductUseCase } from "../../../application/GetProductUseCase";
-import InvalidDataException from "../../../../src/domain/exceptions/InvalidDataException";
-import { Product } from "../../../../src/domain/Product";
-import DuplicateEntityException from "../../../../src/domain/exceptions/DuplicateEntityException";
-import UpdateProductUseCase from "../../../../src/application/UpdateProductUseCase";
+import InvalidDataException from "../../../domain/exceptions/InvalidDataException";
+import { Product } from "../../../domain/Product";
+import DuplicateEntityException from "../../../domain/exceptions/DuplicateEntityException";
+import UpdateProductUseCase from "../../../application/UpdateProductUseCase";
 
-export class ProductController {
+export class ProductService {
 
   private readonly addProductUseCase: AddProductUseCase;
   private readonly getProductUseCase: GetProductUseCase;

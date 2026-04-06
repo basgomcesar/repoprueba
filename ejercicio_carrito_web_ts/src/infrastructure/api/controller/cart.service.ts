@@ -1,9 +1,9 @@
-import Cart from "../../../../src/domain/Cart";
-import AddProductToCartUseCase from "../../../../src/application/AddProductToCartUseCase";
+import Cart from "../../../domain/Cart";
+import AddProductToCartUseCase from "../../../application/AddProductToCartUseCase";
 import { Request, Response } from "express";
 import { CheckoutUseCase } from "../../../application/CheckoutUseCase";
 
-export class CartController {
+export class CartService {
 
   private readonly addProductToCartUseCase: AddProductToCartUseCase;
   private readonly checkoutUseCase: CheckoutUseCase;
