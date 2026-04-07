@@ -144,6 +144,52 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
     // Verificar que la respuesta sea exitosa
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('totalAmount');
-    expect(response.body).toHaveProperty('agencyProfit');
+    expect(response.body).toHaveProperty('agencyProfit'); 
+  });
+
+  it('El endpoint POST /api/rentals/return debe retornar un error si el alquiler no existe', async () => {
+    // Intentar devolver un alquiler que no existe
+    const response = await request(app)
+      .post('/api/rentals/return')
+      .send({
+        rentalId: 'nonexistentRental',
+        returnDate: new Date().toISOString()
+      });
+
+    // Verificar que la respuesta sea un error
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error', 'Rental not found');
+  });
+
+  it('El endpoint POST /api/rentals/return debe retornar un error si el alquiler ya fue devuelto', async () => {
+    // Crear un alquiler para el auto
+    const rentalResponse = await request(app)
+      .post('/api/rentals')
+      .send({
+        userId: InMemoryRentalRepository.users[0].id,
+        carId: InMemoryRentalRepository.cars[0].id,
+        rentalType: 'daily',
+        startDate: new Date().toISOString()
+      });
+
+    // Devolver el alquiler
+    await request(app)
+      .post('/api/rentals/return')
+      .send({
+        rentalId: rentalResponse.body.rentalId,
+        returnDate: new Date().toISOString()
+      });
+
+    // Intentar devolver el mismo alquiler nuevamente
+    const response = await request(app)
+      .post('/api/rentals/return')
+      .send({
+        rentalId: rentalResponse.body.rentalId,
+        returnDate: new Date().toISOString()
+      });
+
+    // Verificar que la respuesta sea un error
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error', 'Rental has already been returned');
   });
 });
