@@ -1,0 +1,17 @@
+{
+  "name": "marsrover",
+  "version": "1.0.0",
+  "main": "hola_mundo.js",
+  "scripts": {
+    "start": "node app/app.js",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/**/*.js"
+  },
+  "author": "nicopaez",
+  "license": "ISC",
+  "description": "proyecto de ejemplo",
+  "devDependencies": {
+    "eslint": "^9.19.0",
+    "jest": "^29.7.0"
+  }
+}
