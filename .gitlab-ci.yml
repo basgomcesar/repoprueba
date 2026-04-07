@@ -2,8 +2,16 @@ image: node:22.13.1-slim
 
 stages:
   - build
+  - deploy
 
 build_job:
   stage: build
   script:
     - ./build_all.sh
+
+deploy_job:
+  stage: deploy
+  script:
+    - curl ${DEPLOY_URL}
+  only:
+    - deploy
