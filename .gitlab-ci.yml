@@ -10,8 +10,9 @@ build_job:
     - ./build_all.sh
 
 deploy_job:
+  image: ruby:3.2.1
   stage: deploy
   script:
-    - curl ${DEPLOY_URL}
+    - curl $DEPLOY_URL
   only:
     - deploy
