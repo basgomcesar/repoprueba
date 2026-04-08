@@ -6,6 +6,7 @@ export default function createRentalRoutes(rentalService: RentalService): Route 
   const router = Route();
 
   router.post("/rentals", rentalService.startRental.bind(rentalService));
+  router.post("/rentals/return/:rentalId", rentalService.returnCar.bind(rentalService));
 
   return router;
 }

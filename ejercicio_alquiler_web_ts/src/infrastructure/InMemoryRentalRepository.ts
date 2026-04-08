@@ -2,6 +2,7 @@ import RentalRepository from "src/application/RentalRepository";
 import Car from "../../src/domain/Car";
 import Rental from "../../src/domain/Rental";
 import User from "../../src/domain/User";
+import { CarStatus } from "../../src/domain/enums/CarStatus";
 
 export default class InMemoryRentalRepository implements RentalRepository {
 
@@ -32,7 +33,7 @@ export default class InMemoryRentalRepository implements RentalRepository {
   }
 
   isCarAvailable(carId: string): boolean {
-    return InMemoryRentalRepository.cars.some(car => car.getCarId() === carId && car.getStatus() === "available");
+    return InMemoryRentalRepository.cars.some(car => car.getCarId() === carId && car.getStatus() === CarStatus.AVAILABLE);
   }
 
   isCarExists(carId: string): boolean {
@@ -43,7 +44,7 @@ export default class InMemoryRentalRepository implements RentalRepository {
   updateCarAvailability(carId: string, isAvailable: boolean): void {
     const car = InMemoryRentalRepository.cars.find(c => c.getCarId() === carId);
     if (car) {
-      car.setStatus(isAvailable ? "available" : "unavailable");
+      car.setStatus(isAvailable ? CarStatus.AVAILABLE : CarStatus.UNAVAILABLE);
     }
   }
 

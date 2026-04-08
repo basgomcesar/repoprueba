@@ -3,6 +3,7 @@ import { app, server } from '../../../src/infrastructure/api/app';
 import InMemoryRentalRepository from '../../../src/infrastructure/InMemoryRentalRepository';
 import User from '../../../src/domain/User';
 import Car from '../../../src/domain/Car';
+import { RentalType } from '../../../src/domain/enums/RentalType';
 
 afterAll(() => {
   server.close();
@@ -23,7 +24,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
    
@@ -42,7 +44,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'hourly',
+        rentalType: RentalType.HOURLY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
 
@@ -51,7 +54,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'hourly',
+        rentalType: RentalType.HOURLY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
 
@@ -68,7 +72,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: 'nonexistentUser',
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: new Date().toISOString() 
       });
 
@@ -83,7 +88,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: 'nonexistentCar',
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
 
@@ -98,7 +104,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: 'invalid-date'
       });
 
@@ -120,15 +127,15 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
 
     // Llamada al endpoint POST /api/rentals/return
     const response = await request(app)
-      .post('/api/rentals/return')
+      .post('/api/rentals/return/' + rentalResponse.body.rentalId)
       .send({
-        rentalId: rentalResponse.body.rentalId,
         returnDate: new Date().toISOString()
       });
 
@@ -141,15 +148,14 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
   it('El endpoint POST /api/rentals/return debe retornar un error si el alquiler no existe', async () => {
     // Intentar devolver un alquiler que no existe
     const response = await request(app)
-      .post('/api/rentals/return')
+      .post('/api/rentals/return/nonexistentRental')
       .send({
-        rentalId: 'nonexistentRental',
         returnDate: new Date().toISOString()
       });
 
     // Verificar que la respuesta sea un error
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Rental not found');
+    expect(response.body).toHaveProperty('error', 'Alquiler no encontrado');
   });
 
   it('El endpoint POST /api/rentals/return debe retornar un error si el alquiler ya fue devuelto', async () => {
@@ -159,28 +165,27 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
       .send({
         userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: InMemoryRentalRepository.cars[0].getCarId(),
-        rentalType: 'daily',
+        rentalType: RentalType.DAILY,
+        rentalTime: 3,
         startDate: new Date().toISOString()
       });
 
     // Devolver el alquiler
     await request(app)
-      .post('/api/rentals/return')
+      .post('/api/rentals/return/' + rentalResponse.body.rentalId)
       .send({
-        rentalId: rentalResponse.body.rentalId,
         returnDate: new Date().toISOString()
       });
 
     // Intentar devolver el mismo alquiler nuevamente
     const response = await request(app)
-      .post('/api/rentals/return')
+      .post('/api/rentals/return/' + rentalResponse.body.rentalId)
       .send({
-        rentalId: rentalResponse.body.rentalId,
         returnDate: new Date().toISOString()
       });
 
     // Verificar que la respuesta sea un error
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Rental has already been returned');
+    expect(response.body).toHaveProperty('error', 'Alquiler ya ha sido devuelto');
   });
 });
