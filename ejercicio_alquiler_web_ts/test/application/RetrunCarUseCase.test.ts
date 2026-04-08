@@ -1,5 +1,4 @@
 import ReturnCarUseCase from "../../src/application/ReturnCarUseCase";
-import RentalRepository from "../../src/application/RentalRepository";
 import Rental from "../../src/domain/Rental";
 
 describe("Tests para el caso de uso ReturnCarUseCase", () => {
