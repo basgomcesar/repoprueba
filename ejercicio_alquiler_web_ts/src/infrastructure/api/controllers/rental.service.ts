@@ -11,14 +11,19 @@ export default class RentalService {
   }
 
   startRental(req: Request, res: Response) {
-    const { userId, carId, rentalType, startDate } = req.body;
+    const { userId, carId, rentalType, rentalTime, startDate } = req.body;
 
     try {
       const startDateObj = new Date(startDate); 
+      const rentalTimeNum = parseInt(rentalTime, 10);
       if (isNaN(startDateObj.getTime())) {
         throw new Error("Fecha de inicio no válida");
       }
-      const rental = this.startRentalUseCase.execute(userId, carId, rentalType, startDateObj);
+      if (isNaN(rentalTimeNum)) {
+        throw new Error("Tiempo de alquiler no válido");
+      }
+
+      const rental = this.startRentalUseCase.execute(userId, carId, rentalType, rentalTimeNum, startDateObj);
       res.status(201).json(rental);
       return rental;
     } catch (error: any) {

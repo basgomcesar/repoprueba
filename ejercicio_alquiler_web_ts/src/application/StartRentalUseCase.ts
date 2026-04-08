@@ -11,7 +11,7 @@ export class StartRentalUseCase {
     this.rentalRepository = rentalRepository;
   }
 
-  execute(userId: string, carId: string, rentalType: string, startDate: Date): Rental {
+  execute(userId: string, carId: string, rentalType: string, rentalTime: number, startDate: Date): Rental {
     
 
     if (!this.rentalRepository.isCarExists(carId)) {
@@ -27,7 +27,7 @@ export class StartRentalUseCase {
     }
 
     const rentalId = randomUUID().toString();
-    const rental = new Rental(rentalId, userId, carId, rentalType, startDate.toISOString());
+    const rental = new Rental(rentalId, userId, carId, rentalTime, rentalType, startDate.toISOString());
     this.rentalRepository.createRental(rental);
     this.rentalRepository.updateCarAvailability(carId, false);
      
