@@ -1,6 +1,8 @@
 import request from 'supertest';
 import { app, server } from '../../../src/infrastructure/api/app';
 import InMemoryRentalRepository from '../../../src/infrastructure/InMemoryRentalRepository';
+import User from '../../../src/domain/User';
+import Car from '../../../src/domain/Car';
 
 afterAll(() => {
   server.close();
@@ -8,18 +10,8 @@ afterAll(() => {
 
 describe('Tests para el endpoint POST /api/rentals', () => {
   beforeAll(() => {
-    InMemoryRentalRepository.users.push({
-      id: 'user123',
-      name: 'John Doe',
-      email: 'john.doe@example.com'
-    });
-    InMemoryRentalRepository.cars.push({
-      id: 'car123',
-      make: 'Toyota',
-      model: 'Corolla',
-      year: 2020,
-      available: true
-    });
+    InMemoryRentalRepository.users.push(new User("1", 'John Doe', 'john.doe@example.com'));
+    InMemoryRentalRepository.cars.push(new Car("4523", 'Toyota', "available"));
   });
 
 
@@ -29,8 +21,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
     const response = await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
-        carId: InMemoryRentalRepository.cars[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'daily',
         startDate: new Date().toISOString()
       });
@@ -38,8 +30,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
     // Verificar que la respuesta sea exitosa    
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('rentalId');
-    expect(response.body).toHaveProperty('userId', InMemoryRentalRepository.users[0].id);
-    expect(response.body).toHaveProperty('carId', InMemoryRentalRepository.cars[0].id);
+    expect(response.body).toHaveProperty('userId', InMemoryRentalRepository.users[0].getUserId());
+    expect(response.body).toHaveProperty('carId', InMemoryRentalRepository.cars[0].getCarId());
     expect(response.body).toHaveProperty('rentalType', 'daily');
     expect(response.body).toHaveProperty('startDate');
   });
@@ -50,8 +42,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
     await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
-        carId: InMemoryRentalRepository.cars[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'hourly',
         startDate: new Date().toISOString()
       });
@@ -60,8 +52,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
     const response = await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
-        carId: InMemoryRentalRepository.cars[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'hourly',
         startDate: new Date().toISOString()
       });
@@ -78,9 +70,9 @@ describe('Tests para el endpoint POST /api/rentals', () => {
       .post('/api/rentals')
       .send({
         userId: 'nonexistentUser',
-        carId: InMemoryRentalRepository.cars[0].id,
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'daily',
-        startDate: new Date().toISOString()
+        startDate: new Date().toISOString() //Ej de fecha actual en formato ISO 1999-12-31T23:59:59.000Z
       });
 
     // Verificar que la respuesta sea un error
@@ -94,7 +86,7 @@ describe('Tests para el endpoint POST /api/rentals', () => {
     const response = await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
         carId: 'nonexistentCar',
         rentalType: 'daily',
         startDate: new Date().toISOString()
@@ -108,18 +100,8 @@ describe('Tests para el endpoint POST /api/rentals', () => {
 
 describe('Tests para el endpoint POST /api/rentals/return', () => {
   beforeAll(() => {
-    InMemoryRentalRepository.users.push({
-      id: 'user456',
-      name: 'Jane Doe',
-      email: 'jane.doe@example.com'
-    });
-    InMemoryRentalRepository.cars.push({
-      id: 'car456',
-      make: 'Honda',
-      model: 'Civic',
-      year: 2021,
-      available: true
-    });
+    InMemoryRentalRepository.users.push(new User("3456", 'Jane Doe', 'jane.doe@example.com'));
+    InMemoryRentalRepository.cars.push(new Car("5678", 'Honda', "available"));
   });
 
   it('El endpoint POST /api/rentals/return debe retornar el monto total a facturar por el alquiler y la ganancia obtenida por la agencia', async () => {
@@ -127,8 +109,8 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
     const rentalResponse = await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
-        carId: InMemoryRentalRepository.cars[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'daily',
         startDate: new Date().toISOString()
       });
@@ -144,7 +126,7 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
     // Verificar que la respuesta sea exitosa
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('totalAmount');
-    expect(response.body).toHaveProperty('agencyProfit'); 
+    expect(response.body).toHaveProperty('agencyProfit');
   });
 
   it('El endpoint POST /api/rentals/return debe retornar un error si el alquiler no existe', async () => {
@@ -166,8 +148,8 @@ describe('Tests para el endpoint POST /api/rentals/return', () => {
     const rentalResponse = await request(app)
       .post('/api/rentals')
       .send({
-        userId: InMemoryRentalRepository.users[0].id,
-        carId: InMemoryRentalRepository.cars[0].id,
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'daily',
         startDate: new Date().toISOString()
       });

@@ -1,31 +1,19 @@
 import express, { Request, Response } from "express";
-import { createProductRoutes } from "./routes/product.route";
-import InMemoryProductRepository from "../InMemoryProductRepository";
-import { AddProductUseCase } from "../../../src/application/AddProductUseCase";
-import { ProductService } from "./controller/product.service";
-import { GetProductUseCase } from "../../../src/application/GetProductUseCase";
-import UpdateProductUseCase from "../../../src/application/UpdateProductUseCase";
-import { createCartRoutes } from "./routes/cart.route";
-import { CartService } from "./controller/cart.service";
-import AddProductToCartUseCase from "../../../src/application/AddProductToCartUseCase";
-import { CheckoutUseCase } from "../../../src/application/CheckoutUseCase";
+import InMemoryRentalRepository from "../InMemoryRentalRepository";
+import { StartRentalUseCase } from "../../../src/application/StartRentalUseCase";
+import RentalService from "./controllers/rental.service";
+import createRentalRoutes from "./routes/rental.route";
 const app = express();
 const port = 3000;
 app.use(express.json());
 
 
-const productRepo = new InMemoryProductRepository();
-const addProduct = new AddProductUseCase(productRepo);
-const getProduct = new GetProductUseCase(productRepo);
-const updateProduct = new UpdateProductUseCase(productRepo);
-const productService = new ProductService(addProduct, getProduct, updateProduct);
+const rentalRepo = new InMemoryRentalRepository();
+const addRental = new StartRentalUseCase(rentalRepo);
 
-const addProductToCartUseCase = new AddProductToCartUseCase(productRepo);
-const checkoutUseCase = new CheckoutUseCase(productRepo);
-const cartService = new CartService(addProductToCartUseCase, checkoutUseCase);
+const rentalService = new RentalService(addRental);
 
-app.use("/api/products", createProductRoutes(productService));
-app.use("/api/carts", createCartRoutes(cartService));
+app.use("/api/", createRentalRoutes(rentalService));
 
 const server = app
   .listen(port, () => {
