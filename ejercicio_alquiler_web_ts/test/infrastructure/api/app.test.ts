@@ -9,6 +9,7 @@ afterAll(() => {
 });
 
 describe('Tests para el endpoint POST /api/rentals', () => {
+
   beforeAll(() => {
     InMemoryRentalRepository.users.push(new User("1", 'John Doe', 'john.doe@example.com'));
     InMemoryRentalRepository.cars.push(new Car("4523", 'Toyota', "available"));
@@ -17,7 +18,6 @@ describe('Tests para el endpoint POST /api/rentals', () => {
 
   it('El endpoint POST /api/rentals debe crear un nuevo alquiler de un auto con exito', async () => {
 
-    // Llamada al endpoint POST /api/rentals
     const response = await request(app)
       .post('/api/rentals')
       .send({
@@ -26,8 +26,7 @@ describe('Tests para el endpoint POST /api/rentals', () => {
         rentalType: 'daily',
         startDate: new Date().toISOString()
       });
-
-    // Verificar que la respuesta sea exitosa    
+   
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('rentalId');
     expect(response.body).toHaveProperty('userId', InMemoryRentalRepository.users[0].getUserId());
@@ -38,7 +37,6 @@ describe('Tests para el endpoint POST /api/rentals', () => {
 
   it('El endpoint POST /api/rentals debe retornar un error si el auto no esta disponible', async () => {
 
-    // Crear un alquiler para que el auto no esté disponible
     await request(app)
       .post('/api/rentals')
       .send({
@@ -48,7 +46,6 @@ describe('Tests para el endpoint POST /api/rentals', () => {
         startDate: new Date().toISOString()
       });
 
-    // Intentar crear otro alquiler para el mismo auto
     const response = await request(app)
       .post('/api/rentals')
       .send({
@@ -58,31 +55,29 @@ describe('Tests para el endpoint POST /api/rentals', () => {
         startDate: new Date().toISOString()
       });
 
-    // Verificar que la respuesta sea un error
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Car is not available for rental');
+    expect(response.body).toHaveProperty('error', 'El auto no está disponible para alquiler');
   });
 
   it('El endpoint POST /api/rentals debe retornar un error si el usuario no existe', async () => {
 
-    // Intentar crear un alquiler con un usuario que no existe
+    InMemoryRentalRepository.cars[0].setStatus("available");
+
     const response = await request(app)
       .post('/api/rentals')
       .send({
         userId: 'nonexistentUser',
         carId: InMemoryRentalRepository.cars[0].getCarId(),
         rentalType: 'daily',
-        startDate: new Date().toISOString() //Ej de fecha actual en formato ISO 1999-12-31T23:59:59.000Z
+        startDate: new Date().toISOString() 
       });
 
-    // Verificar que la respuesta sea un error
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'User not found');
+    expect(response.body).toHaveProperty('error', 'Usuario no encontrado');
   });
 
   it('El endpoint POST /api/rentals debe retornar un error si el auto no existe', async () => {
 
-    // Intentar crear un alquiler con un auto que no existe
     const response = await request(app)
       .post('/api/rentals')
       .send({
@@ -92,9 +87,23 @@ describe('Tests para el endpoint POST /api/rentals', () => {
         startDate: new Date().toISOString()
       });
 
-    // Verificar que la respuesta sea un error
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Car not found');
+    expect(response.body).toHaveProperty('error', 'Auto no encontrado');
+  });
+
+  it('El endpoint POST /api/rentals debe retornar un error si la fecha de inicio no es válida', async () => {
+
+    const response = await request(app)
+      .post('/api/rentals')
+      .send({
+        userId: InMemoryRentalRepository.users[0].getUserId(),
+        carId: InMemoryRentalRepository.cars[0].getCarId(),
+        rentalType: 'daily',
+        startDate: 'invalid-date'
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error', 'Fecha de inicio no válida');
   });
 });
 

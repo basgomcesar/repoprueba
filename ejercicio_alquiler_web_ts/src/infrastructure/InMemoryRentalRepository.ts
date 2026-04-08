@@ -17,10 +17,21 @@ export default class InMemoryRentalRepository implements RentalRepository {
   isUserExists(userId: string): boolean {
     return InMemoryRentalRepository.users.some(user => user.getUserId() === userId);
   }
+
   isCarAvailable(carId: string): boolean {
-    return !InMemoryRentalRepository.cars.some(car => car.getCarId() === carId && car.getStatus() === "available");
+    return InMemoryRentalRepository.cars.some(car => car.getCarId() === carId && car.getStatus() === "available");
   }
+
   isCarExists(carId: string): boolean {
-    return InMemoryRentalRepository.cars.some(car => car.getCarId() === carId);
+    const car = InMemoryRentalRepository.cars.find(car => car.getCarId() === carId);
+    return !!car;
   }
+
+  updateCarAvailability(carId: string, isAvailable: boolean): void {
+    const car = InMemoryRentalRepository.cars.find(c => c.getCarId() === carId);
+    if (car) {
+      car.setStatus(isAvailable ? "available" : "unavailable");
+    }
+  }
+
 }
