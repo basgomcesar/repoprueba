@@ -15,7 +15,17 @@ describe("Tests para el caso de uso StartRentalUseCase", () => {
       updateRental: jest.fn(),
     };
 
-    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository);
+    const carsRepositoryMock = {
+      exists: jest.fn().mockReturnValue(true),
+      isAvailable: jest.fn().mockReturnValue(true),
+      updateAvailability: jest.fn(),
+    };
+
+    const usersRepositoryMock = {
+      exists: jest.fn().mockReturnValue(true),
+    };
+
+    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository, carsRepositoryMock as any, usersRepositoryMock as any);
 
     const rentalSummary: Rental = startRentalUseCase.execute(
       "123",
@@ -45,7 +55,17 @@ describe("Tests para el caso de uso StartRentalUseCase", () => {
       updateRental: jest.fn()
     };
 
-    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository);
+    const carsRepositoryMock = {
+      exists: jest.fn().mockReturnValue(true),
+      isAvailable: jest.fn().mockReturnValue(false),
+      updateAvailability: jest.fn(),
+    };
+
+    const usersRepositoryMock = {
+      exists: jest.fn().mockReturnValue(true),
+    };
+
+    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository, carsRepositoryMock as any, usersRepositoryMock as any);
 
     expect(() => startRentalUseCase.execute("123", "234", "daily", 2, new Date())).toThrow("El auto no está disponible para alquiler");
   });
@@ -62,7 +82,17 @@ describe("Tests para el caso de uso StartRentalUseCase", () => {
       updateRental: jest.fn()
     };
 
-    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository);
+    const carsRepositoryMock = {
+      exists: jest.fn().mockReturnValue(true),
+      isAvailable: jest.fn().mockReturnValue(true),
+      updateAvailability: jest.fn(),
+    };
+
+    const usersRepositoryMock = {
+      exists: jest.fn().mockReturnValue(false),
+    };
+
+    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository, carsRepositoryMock as any, usersRepositoryMock as any);
 
     expect(() => startRentalUseCase.execute("123", "234", "daily", 2, new Date())).toThrow("Usuario no encontrado");
   });
@@ -79,7 +109,17 @@ describe("Tests para el caso de uso StartRentalUseCase", () => {
       updateRental: jest.fn()
     };
 
-    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository);
+    const carsRepositoryMock = {
+      exists: jest.fn().mockReturnValue(false),
+      isAvailable: jest.fn().mockReturnValue(true),
+      updateAvailability: jest.fn(),
+    };
+
+    const usersRepositoryMock = {
+      exists: jest.fn().mockReturnValue(false),
+    };
+
+    const startRentalUseCase = new StartRentalUseCase(rentalRepositoryMock as RentalRepository, carsRepositoryMock as any, usersRepositoryMock as any);
 
     expect(() => startRentalUseCase.execute("123", "234", "daily", 2, new Date())).toThrow("Auto no encontrado");
   });

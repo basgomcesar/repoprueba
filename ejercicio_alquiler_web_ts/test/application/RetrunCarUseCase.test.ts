@@ -15,7 +15,14 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
     createRental: jest.fn(),
   };
 
-  const useCase = new ReturnCarUseCase(rentalRepository as any);
+  const carRepository = {
+    exists: jest.fn().mockReturnValue(true),
+    isAvailable: jest.fn().mockReturnValue(true),
+    updateAvailability: jest.fn(),
+    findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
+  };
+
+  const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
 
   const returnedRental = await useCase.execute("r1", new Date("2026-04-08T12:00:00.000Z"));
 
@@ -23,7 +30,7 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
   expect(returnedRental.getEndDate()).toBe("2026-04-08T12:00:00.000Z");
   expect(returnedRental.getTotalAmount()).toBe(10); 
   expect(returnedRental.getAgencyProfit()).toBe(2.5); 
-  expect(rentalRepository.updateCarAvailability).toHaveBeenCalledWith("c1", true);
+  expect(carRepository.updateAvailability).toHaveBeenCalledWith("c1", true);
   });
 
   it("Deberia lanzar un error si el alquiler no existe", async () => {
@@ -37,7 +44,14 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
       createRental: jest.fn(),
     };
 
-    const useCase = new ReturnCarUseCase(rentalRepository as any);
+    const carRepository = {
+      exists: jest.fn().mockReturnValue(true),
+      isAvailable: jest.fn().mockReturnValue(true),
+      updateAvailability: jest.fn(),
+      findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
+    };
+
+    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
 
     await expect(useCase.execute("r1", new Date("2026-04-08T12:00:00.000Z"))).rejects.toThrow("Alquiler no encontrado");
   });
@@ -55,7 +69,14 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
       createRental: jest.fn(),
     };
 
-    const useCase = new ReturnCarUseCase(rentalRepository as any);
+    const carRepository = {
+      exists: jest.fn().mockReturnValue(true),
+      isAvailable: jest.fn().mockReturnValue(true),
+      updateAvailability: jest.fn(),
+      findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
+    };
+
+    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
 
     const returnedRental = await useCase.execute("r1", new Date("2026-04-11T10:00:00.000Z"));
 

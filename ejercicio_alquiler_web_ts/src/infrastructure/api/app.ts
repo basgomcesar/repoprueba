@@ -4,14 +4,18 @@ import { StartRentalUseCase } from "../../../src/application/StartRentalUseCase"
 import RentalService from "./controllers/rental.service";
 import createRentalRoutes from "./routes/rental.route";
 import ReturnCarUseCase from "../../../src/application/ReturnCarUseCase";
+import InMemoryUserRepository from "../InMemoryUserRepository";
+import InMemoryCarRepository from "../InMemoryCarRepository";
 const app = express();
 const port = 3000;
 app.use(express.json());
 
 
 const rentalRepo = new InMemoryRentalRepository();
-const addRental = new StartRentalUseCase(rentalRepo);
-const returnCar = new ReturnCarUseCase(rentalRepo);
+const carRepo = new InMemoryCarRepository();
+const userRepo = new InMemoryUserRepository();
+const addRental = new StartRentalUseCase(rentalRepo, carRepo, userRepo);
+const returnCar = new ReturnCarUseCase(rentalRepo, carRepo, userRepo);
 
 const rentalService = new RentalService(addRental, returnCar);
 

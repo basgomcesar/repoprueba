@@ -1,4 +1,4 @@
-import Rental from "../domain/Rental";
+import Rental from "../../domain/Rental";
 
 export default interface RentalRepository {
   getRentalById(rentalId: string): Rental | null;

@@ -7,13 +7,12 @@ import { CarStatus } from "../../src/domain/enums/CarStatus";
 export default class InMemoryRentalRepository implements RentalRepository {
 
   static rentals: Rental[] = [];
-  static cars: Car[] = [];
-  static users: User[] = [];
 
   getRentalById(rentalId: string): Rental | null {
     const rental = InMemoryRentalRepository.rentals.find(r => r.getRentalId() === rentalId);
     return rental || null;
   }
+  
   updateRental(rental: Rental): void {
     const rentalIndex = InMemoryRentalRepository.rentals.findIndex(r => r.getRentalId() === rental.getRentalId());
     if (rentalIndex !== -1) {
@@ -21,31 +20,9 @@ export default class InMemoryRentalRepository implements RentalRepository {
     }
   }
 
-
-
   createRental(rental: Rental): Rental {
     InMemoryRentalRepository.rentals.push(rental);
     return rental;
-  }
-
-  isUserExists(userId: string): boolean {
-    return InMemoryRentalRepository.users.some(user => user.getUserId() === userId);
-  }
-
-  isCarAvailable(carId: string): boolean {
-    return InMemoryRentalRepository.cars.some(car => car.getCarId() === carId && car.getStatus() === CarStatus.AVAILABLE);
-  }
-
-  isCarExists(carId: string): boolean {
-    const car = InMemoryRentalRepository.cars.find(car => car.getCarId() === carId);
-    return !!car;
-  }
-
-  updateCarAvailability(carId: string, isAvailable: boolean): void {
-    const car = InMemoryRentalRepository.cars.find(c => c.getCarId() === carId);
-    if (car) {
-      car.setStatus(isAvailable ? CarStatus.AVAILABLE : CarStatus.UNAVAILABLE);
-    }
   }
 
 }

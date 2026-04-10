@@ -1,11 +1,13 @@
 export default class Car {
 
   private carId: string;
+  private tag: string;
   private model: string;
   private status: string;
 
-  constructor(carId: string, model: string, status: string) {
+  constructor(carId: string, tag: string, model: string, status: string) {
     this.carId = carId;
+    this.tag = tag;
     this.model = model;
     this.status = status;
   }
@@ -16,6 +18,14 @@ export default class Car {
 
   setCarId(carId: string): void {
     this.carId = carId;
+  }
+
+  getTag(): string {
+    return this.tag;
+  }
+
+  setTag(tag: string): void {
+    this.tag = tag;
   }
 
   getModel(): string {

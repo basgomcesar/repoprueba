@@ -2,13 +2,19 @@ import RentalRepository from "../application/RentalRepository";
 import Rental from "../domain/Rental";
 import { RentalType } from "../domain/enums/RentalType";
 import { RentalPricing } from "../domain/constants/RentalPricing";
+import { CarRepository } from "./ports/CarRepository";
+import { UserRepository } from "./ports/UserRepository";
 
 export default class ReturnCarUseCase {
 
-  private rentalRepository: RentalRepository;
+  private readonly rentalRepository: RentalRepository;
+  private readonly carsRepository: CarRepository;
+  private readonly usersRepository: UserRepository;
 
-  constructor(rentalRepository: RentalRepository) {
+  constructor(rentalRepository: RentalRepository, carRepository: CarRepository, userRepository: UserRepository) {
     this.rentalRepository = rentalRepository;
+    this.carsRepository = carRepository;
+    this.usersRepository = userRepository;
   }
 
   public async execute(rentalId: string, returnDate: Date): Promise<Rental> {
@@ -40,7 +46,7 @@ export default class ReturnCarUseCase {
     rental.setTotalAmount(totalAmount);
     rental.setAgencyProfit(agencyProfit);
 
-    this.rentalRepository.updateCarAvailability(carId, true);
+    this.carsRepository.updateAvailability(carId, true);
     this.rentalRepository.updateRental(rental);
     return rental;
   }
