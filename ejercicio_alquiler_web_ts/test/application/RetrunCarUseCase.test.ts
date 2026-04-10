@@ -22,7 +22,7 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
     findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
   };
 
-  const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
+  const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any);
 
   const returnedRental = await useCase.execute("r1", new Date("2026-04-08T12:00:00.000Z"));
 
@@ -51,7 +51,7 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
       findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
     };
 
-    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
+    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any);
 
     await expect(useCase.execute("r1", new Date("2026-04-08T12:00:00.000Z"))).rejects.toThrow("Alquiler no encontrado");
   });
@@ -76,7 +76,7 @@ describe("Tests para el caso de uso ReturnCarUseCase", () => {
       findById: jest.fn().mockReturnValue({ getRentalPrice: () => 5 }),
     };
 
-    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any, {} as any);
+    const useCase = new ReturnCarUseCase(rentalRepository as any, carRepository as any);
 
     const returnedRental = await useCase.execute("r1", new Date("2026-04-11T10:00:00.000Z"));
 

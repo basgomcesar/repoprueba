@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { app, server } from '../../../src/infrastructure/api/app';
-import InMemoryRentalRepository from '../../../src/infrastructure/InMemoryRentalRepository';
 import User from '../../../src/domain/User';
 import Car from '../../../src/domain/Car';
 import { RentalType } from '../../../src/domain/enums/RentalType';

@@ -15,7 +15,7 @@ const rentalRepo = new InMemoryRentalRepository();
 const carRepo = new InMemoryCarRepository();
 const userRepo = new InMemoryUserRepository();
 const addRental = new StartRentalUseCase(rentalRepo, carRepo, userRepo);
-const returnCar = new ReturnCarUseCase(rentalRepo, carRepo, userRepo);
+const returnCar = new ReturnCarUseCase(rentalRepo, carRepo);
 
 const rentalService = new RentalService(addRental, returnCar);
 

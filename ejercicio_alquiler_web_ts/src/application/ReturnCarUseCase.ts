@@ -9,12 +9,10 @@ export default class ReturnCarUseCase {
 
   private readonly rentalRepository: RentalRepository;
   private readonly carsRepository: CarRepository;
-  private readonly usersRepository: UserRepository;
 
-  constructor(rentalRepository: RentalRepository, carRepository: CarRepository, userRepository: UserRepository) {
+  constructor(rentalRepository: RentalRepository, carRepository: CarRepository) {
     this.rentalRepository = rentalRepository;
     this.carsRepository = carRepository;
-    this.usersRepository = userRepository;
   }
 
   public async execute(rentalId: string, returnDate: Date): Promise<Rental> {
