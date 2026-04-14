@@ -2,6 +2,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { InMemoryProducts } from './../../src/products/infrastructure/InMemoryProducts';
 
 describe('Test cases to Products', () => {
   let app: INestApplication;
@@ -75,6 +76,10 @@ describe('Test cases to Products', () => {
   });
 
   describe('GET /products', () => {
+    beforeEach(async () => {
+      const res = await request(app.getHttpServer()).get('/products');
+    });
+
     it('200 - should list products', async () => {
       const p1 = {
         name: 'Beans',
@@ -98,6 +103,7 @@ describe('Test cases to Products', () => {
     });
 
     it('200 - should return empty array if no products', async () => {
+      InMemoryProducts.products = [];
       const res = await request(app.getHttpServer())
         .get('/products')
         .expect(200);
@@ -106,9 +112,10 @@ describe('Test cases to Products', () => {
       expect(res.body).toEqual([]);
     });
 
+
   });
 
-  describe('PUT /products/:sku/stock', () => {
+  describe('PUT /products/update-stock/:sku', () => {
     it('200 - should update stock', async () => {
       const payload = {
         name: 'Cake',

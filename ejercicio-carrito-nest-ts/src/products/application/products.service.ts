@@ -21,4 +21,17 @@ export class ProductsService {
     getAllProducts(): Product[] {
         return this.ProductsRepository.getAllProducts();
     }
+
+    updateProductStock(sku: string, stock: number): Product {
+        const product = this.ProductsRepository.getProductBySKU(sku);
+        if (!product) {
+            throw new Error('Producto no encontrado');
+        }
+        if (stock < 0) {
+            throw new Error('El stock no puede ser negativo');
+        }
+        product.setStock(stock);
+        this.ProductsRepository.updateProduct(product);
+        return product;
+    }
 }

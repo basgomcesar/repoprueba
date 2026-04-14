@@ -11,6 +11,8 @@ describe('ProductsService', () => {
     }),
     findProductBySKU: jest.fn().mockReturnValue(false),
     getAllProducts: jest.fn().mockReturnValue([]),
+    getProductBySKU: jest.fn().mockReturnValue(new Product(1, 'Arroz', 50, 'ARZ-001', 10)),
+    updateProduct: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -99,16 +101,16 @@ describe('ProductsService', () => {
   });
 
   it("should return a product updated", () => {
-    mockProductsRepository.findProductBySKU.mockReturnValue(true);
-    const product = service.updateProductStock('ARZ-001', 15);
+    mockProductsRepository.getProductBySKU.mockReturnValue(new Product(1, 'Arroz', 50, 'ARZ-001', 10));
+    const product = service.updateProductStock('ARZ-001', 35);
     expect(product).toEqual(expect.objectContaining({
       sku: 'ARZ-001',
-      stock: 15,
+      stock: 35,
     }));
   });
 
   it("should throw an error when updating stock for unknown sku", () => {
-    mockProductsRepository.findProductBySKU.mockReturnValue(false);
+    mockProductsRepository.getProductBySKU.mockReturnValue(null);
     expect(() => service.updateProductStock('UNKNOWN-001', 15)).toThrow();
   });
 
