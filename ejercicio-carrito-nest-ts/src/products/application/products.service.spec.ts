@@ -98,5 +98,22 @@ describe('ProductsService', () => {
     expect(products).toEqual([new Product(1, 'Arroz', 50, 'ARZ-001', 10), new Product(2, 'Frijoles', 30, 'FRJ-001', 20)]);
   });
 
+  it("should return a product updated", () => {
+    mockProductsRepository.findProductBySKU.mockReturnValue(true);
+    const product = service.updateProductStock('ARZ-001', 15);
+    expect(product).toEqual(expect.objectContaining({
+      sku: 'ARZ-001',
+      stock: 15,
+    }));
+  });
 
+  it("should throw an error when updating stock for unknown sku", () => {
+    mockProductsRepository.findProductBySKU.mockReturnValue(false);
+    expect(() => service.updateProductStock('UNKNOWN-001', 15)).toThrow();
+  });
+
+  it("should throw an error when updating stock with invalid value", () => {
+    mockProductsRepository.findProductBySKU.mockReturnValue(true);
+    expect(() => service.updateProductStock('ARZ-001', -5)).toThrow();
+  });
 });

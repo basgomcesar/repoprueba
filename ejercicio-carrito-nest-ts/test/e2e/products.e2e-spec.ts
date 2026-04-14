@@ -120,7 +120,7 @@ describe('Test cases to Products', () => {
       await request(app.getHttpServer()).post('/products').send(payload).expect(201);
 
       const res = await request(app.getHttpServer())
-        .put('/products/CAK-001/stock')
+        .put('/products/update-stock/CAK-001')
         .send({ stock: 12 })
         .expect(200);
 
@@ -134,7 +134,7 @@ describe('Test cases to Products', () => {
 
     it('404 - should return not found for unknown sku', async () => {
       await request(app.getHttpServer())
-        .put('/products/NOPE-999/stock')
+        .put('/products/update-stock/NOPE-999')
         .send({ stock: 1 })
         .expect(404);
     });
@@ -150,7 +150,7 @@ describe('Test cases to Products', () => {
       await request(app.getHttpServer()).post('/products').send(payload).expect(201);
 
       await request(app.getHttpServer())
-        .put('/products/HEA-001/stock')
+        .put('/products/update-stock/HEA-001')
         .send({ stock: -1 })
         .expect(400);
     });
