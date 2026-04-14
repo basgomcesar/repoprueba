@@ -96,6 +96,16 @@ describe('Test cases to Products', () => {
         ]),
       );
     });
+
+    it('200 - should return empty array if no products', async () => {
+      const res = await request(app.getHttpServer())
+        .get('/products')
+        .expect(200);
+
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body).toEqual([]);
+    });
+
   });
 
   describe('PUT /products/:sku/stock', () => {

@@ -1,9 +1,9 @@
-import { Product } from "../domain/Product";
+import { Product } from "../domain/entities/Product";
 import ProductRepository from "../application/ProductRepository";
 
 export class InMemoryProducts implements ProductRepository  {
     getAllProducts(): Product[] {
-        throw new Error("Method not implemented.");
+        return InMemoryProducts.products;
     }
     findProductBySKU(sku: string): boolean {
         return InMemoryProducts.products.some((p) => p.getSKU() === sku);
