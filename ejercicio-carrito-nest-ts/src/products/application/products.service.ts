@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type ProductRepository from './ProductRepository';
-import { Product } from './Product';
+import { Product } from '../domain/Product';
 import { ConflictException } from '@nestjs/common';
 
 @Injectable()

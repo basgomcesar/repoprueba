@@ -1,5 +1,5 @@
-import { Product } from "./Product";
-import ProductRepository from "./ProductRepository";
+import { Product } from "../domain/Product";
+import ProductRepository from "../application/ProductRepository";
 
 export class InMemoryProducts implements ProductRepository  {
     getAllProducts(): Product[] {
