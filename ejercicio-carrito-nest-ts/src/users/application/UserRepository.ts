@@ -1,4 +1,4 @@
-import User from '../domain/User';
+import User from '../domain/entities/User';
 
 export default interface UserRepository {
   findUserByEmail(email: string): User | null;

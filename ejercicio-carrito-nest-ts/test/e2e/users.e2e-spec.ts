@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import InMemoryUsers from './../../src/users/infrastructure/InMemoryUsers';
+import User from '../../src/users/domain/entities/User';
 jest.mock('uuid', () => ({
   v4: jest.fn(() => 'mock-uuid-12345')
 }));
@@ -114,6 +115,7 @@ describe('Test cases to Users', () => {
 
     describe('GET /users', () => {
         beforeEach(async () => {
+            InMemoryUsers.users = [];
             const res = await request(app.getHttpServer()).get('/users');
         });
 
@@ -131,6 +133,7 @@ describe('Test cases to Users', () => {
         });
 
         it('200 - should list users', async () => {
+            InMemoryUsers.users = [new User('1', 'Cesar Basilio', 'cesar.basilio@example.com', '1234567890')];
             const res = await request(app.getHttpServer()).get('/users');
             expect(res.body).toEqual(
                 expect.arrayContaining([
@@ -180,7 +183,7 @@ describe('Test cases to Users', () => {
 
         it('404 - should return 404 if user not found', async () => {
             await request(app.getHttpServer())
-                .get('/users/unknown-phone')
+                .get('/users/2123456789')
                 .expect(404);
         });
 

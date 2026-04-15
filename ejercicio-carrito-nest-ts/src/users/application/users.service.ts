@@ -1,13 +1,11 @@
-import { Injectable,Inject, ConflictException } from '@nestjs/common';
+import { Injectable,Inject, ConflictException, NotFoundException } from '@nestjs/common';
 import type UserRepository from './UserRepository';
-import User from '../domain/User';
+import User from '../domain/entities/User';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
-    getAllUsers() {
-        throw new Error('Method not implemented.');
-    }
+
     constructor(@Inject('UsersRepository') private readonly usersRepository: UserRepository) {}
 
     create(user: { name: string; email: string, phone: string } ) {
@@ -25,6 +23,18 @@ export class UsersService {
         const newUser = new User(uuidv4(), user.name, user.email, user.phone);
 
         return this.usersRepository.saveUser(newUser);
+    }
+
+    getAllUsers() {
+        return this.usersRepository.getAllUsers();
+    }
+
+    getUserByPhone(phone: string) {
+        const user = this.usersRepository.getUserByPhone(phone);
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+        }
+        return user;
     }
 
     

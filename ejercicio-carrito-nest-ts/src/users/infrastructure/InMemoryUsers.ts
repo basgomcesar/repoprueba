@@ -1,5 +1,5 @@
 import UserRepository from "../application/UserRepository";
-import User from "../domain/User";
+import User from "../domain/entities/User";
 
 export default class InMemoryUsers implements UserRepository {
 
