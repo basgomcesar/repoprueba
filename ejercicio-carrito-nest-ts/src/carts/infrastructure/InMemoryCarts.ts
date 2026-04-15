@@ -30,4 +30,8 @@ export default class InMemoryCarts implements CartsRepository {
         }
         return cart;
     }
+
+    clearCart(user: User): void {
+        InMemoryCarts.carts = InMemoryCarts.carts.filter(cart => cart.getUser().getPhone() !== user.getPhone());
+    }
 }

@@ -17,4 +17,9 @@ export class CartsController {
         return this.cartsService.getCartByUser(phoneNumber);
     }
 
+    @Post('checkout/:phoneNumber')
+    checkoutCart(@Param('phoneNumber') phoneNumber: string) {
+        return this.cartsService.checkoutCart(phoneNumber);
+    }
+
 }

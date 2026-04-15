@@ -3,6 +3,7 @@ import type CartsRepository from './CartsRepository';
 import type UsersRepository from '../../users/application/UserRepository';
 import type ProductRepository from '../../products/application/ProductRepository';
 import { CartItem } from '../domain/CartItem';
+import Order from '../../orders/domain/Order';
 
 @Injectable()
 export class CartsService {
@@ -57,5 +58,39 @@ export class CartsService {
             throw new BadRequestException('Carrito no encontrado para el usuario');
         }
         return cart;
+    }
+
+    checkoutCart(phone: string): Order {
+
+        const user = this.usersRepository.getUserByPhone(phone)
+        if (!user) {
+            throw new BadRequestException("Usuario no encontrado");
+        }
+
+        const cart = this.cartsRepository.getCartByUser(user);
+        if (!cart) {
+            throw new BadRequestException("Carrito no encontrado");
+        }
+
+        const itemsCart = cart.getItemCarts();
+
+        if (itemsCart.length === 0) {
+            throw new BadRequestException("El carrito está vacío");
+        }
+
+        cart.verifyIfProductsInStock();
+
+        for (const item of itemsCart) {
+            const product = item.getProduct();
+            const newStock = product.getStock() - item.getQuantity();
+            product.setStock(newStock);
+            this.productsRepository.updateProduct(product);
+        }
+
+        const total = cart.getTotal();
+
+        this.cartsRepository.clearCart(user);
+
+        return new Order(total, itemsCart, parseInt(user.getId()));
     }
 }
