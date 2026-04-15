@@ -16,6 +16,7 @@ describe('UsersService', () => {
     }),
     getAllUsers: jest.fn().mockReturnValue([]),
     findUserByPhone: jest.fn().mockReturnValue(null),
+    findUserByEmail: jest.fn().mockReturnValue(null),
   };
 
   beforeEach(async () => {
@@ -57,6 +58,12 @@ describe('UsersService', () => {
   it('should throw a ConflictException if phone number is already registered', () => {
     mockUsersRepository.findUserByPhone.mockReturnValue(true);
     expect(() => service.create({ name: 'Cesar Basilio', email: 'cesar.basilio@example', phone: '1234567890' })).toThrow('El número de teléfono ya está registrado');
+  });
+
+  it('should throw a ConflictException if email is already registered', () => {
+    mockUsersRepository.findUserByPhone.mockReturnValue(null);
+    mockUsersRepository.findUserByEmail.mockReturnValue({} as any);
+    expect(() => service.create({ name: 'Cesar Basilio', email: 'cesar.basilio@example', phone: '98273645' })).toThrow('El email ya está registrado');
   });
 
 });

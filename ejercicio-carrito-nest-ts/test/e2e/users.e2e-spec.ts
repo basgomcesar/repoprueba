@@ -2,8 +2,10 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { InMemoryUsuarios } from './../../src/products/infrastructure/InMemoryProducts';
-
+import InMemoryUsers from './../../src/users/infrastructure/InMemoryUsers';
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid-12345')
+}));
 
 
 describe('Test cases to Users', () => {
@@ -73,11 +75,29 @@ describe('Test cases to Users', () => {
                 .expect(400);
         });
 
+        it('409 - should reject duplicated phone', async () => {
+            const payload = {
+                name: 'Cesar Basilio',
+                email: 'cesar2.basilio@example.com',
+                phone: '1234567892',
+            };
+
+            await request(app.getHttpServer())
+                .post('/users')
+                .send(payload)
+                .expect(201);
+
+            await request(app.getHttpServer())
+                .post('/users')
+                .send(payload)
+                .expect(409);
+        });
+
         it('409 - should reject duplicated email', async () => {
             const payload = {
                 name: 'Cesar Basilio',
-                email: 'cesar.basilio@example.com',
-                phone: '1234567890',
+                email: 'cesar3.basilio@example.com',
+                phone: '1234567894',
             };
 
             await request(app.getHttpServer())
@@ -124,7 +144,7 @@ describe('Test cases to Users', () => {
         });
 
         it('200 - should return empty array if no users', async () => {
-            InMemoryUsuarios.usuarios = [];
+            InMemoryUsers.users = [];
             const res = await request(app.getHttpServer())
                 .get('/users')
                 .expect(200);
