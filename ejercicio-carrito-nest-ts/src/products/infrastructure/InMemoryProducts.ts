@@ -1,7 +1,9 @@
 import { Product } from "../domain/entities/Product";
 import ProductRepository from "../application/ProductRepository";
 
-export class InMemoryProducts implements ProductRepository  {
+export class InMemoryProducts implements ProductRepository {
+    static products: Product[] = [];
+
     getProductBySKU(sku: string): Product | null {
         const product = InMemoryProducts.products.find((p) => p.getSKU() === sku);
         return product || null;
@@ -26,5 +28,5 @@ export class InMemoryProducts implements ProductRepository  {
         InMemoryProducts.products.push(product);
         return product;
     }
-    static products: Product[] = [];  
+
 }
