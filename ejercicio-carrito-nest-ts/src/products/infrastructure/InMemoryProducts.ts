@@ -1,0 +1,30 @@
+import { Product } from "../domain/entities/Product";
+import ProductRepository from "../application/ProductRepository";
+
+export class InMemoryProducts implements ProductRepository  {
+    getProductBySKU(sku: string): Product | null {
+        const product = InMemoryProducts.products.find((p) => p.getSKU() === sku);
+        return product || null;
+    }
+
+    getAllProducts(): Product[] {
+        return InMemoryProducts.products;
+    }
+    findProductBySKU(sku: string): boolean {
+        return InMemoryProducts.products.some((p) => p.getSKU() === sku);
+    }
+    getProductById(idProduct: number): Product {
+        throw new Error("Method not implemented.");
+    }
+    updateProduct(product: Product): void {
+        InMemoryProducts.products = InMemoryProducts.products.map((p) =>
+            p.getId() === product.getId() ? product : p
+        );
+    }
+    saveProduct(product: Product): Product {
+        product = new Product(product.getId(), product.getName(), product.getPrice(), product.getSKU(), product.getStock());
+        InMemoryProducts.products.push(product);
+        return product;
+    }
+    static products: Product[] = [];  
+}
