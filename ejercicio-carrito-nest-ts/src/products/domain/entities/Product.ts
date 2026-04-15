@@ -1,13 +1,13 @@
 
 export class Product {
 
-  private id: number;
+  private id: string;
   private name: string;
   private sku: string;
   private price: number;
   private stock: number;
 
-  constructor(id: number, name: string, price: number, sku: string, stock: number) {
+  constructor(id: string, name: string, price: number, sku: string, stock: number) {
     if (price < 0) {
       throw new Error("El precio no puede ser negativo");
     }
@@ -55,7 +55,7 @@ export class Product {
     return this.name;
   }
 
-  getId(): number {
+  getId(): string {
     return this.id;
   }
 

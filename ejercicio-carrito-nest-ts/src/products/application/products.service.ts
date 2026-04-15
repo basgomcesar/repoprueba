@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import type ProductRepository from './ProductRepository';
 import { Product } from '../domain/entities/Product';
 import { ConflictException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductsService {
@@ -15,7 +17,7 @@ export class ProductsService {
         if (product.sku && this.ProductsRepository.findProductBySKU(product.sku)) {
             throw new ConflictException('El SKU ya existe');
         }
-        return this.ProductsRepository.saveProduct(new Product(0, product.name, product.price, product.sku, product.stock));
+        return this.ProductsRepository.saveProduct(new Product(uuidv4(), product.name, product.price, product.sku, product.stock));
     }
 
     getAllProducts(): Product[] {
@@ -25,7 +27,7 @@ export class ProductsService {
     updateProductStock(sku: string, stock: number): Product {
         const product = this.ProductsRepository.getProductBySKU(sku);
         if (!product) {
-            throw new Error('Producto no encontrado');
+            throw new NotFoundException('Producto no encontrado');
         }
         if (stock < 0) {
             throw new Error('El stock no puede ser negativo');

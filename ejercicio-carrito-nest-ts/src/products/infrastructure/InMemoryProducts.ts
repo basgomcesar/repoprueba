@@ -17,7 +17,9 @@ export class InMemoryProducts implements ProductRepository  {
         throw new Error("Method not implemented.");
     }
     updateProduct(product: Product): void {
-        throw new Error("Method not implemented.");
+        InMemoryProducts.products = InMemoryProducts.products.map((p) =>
+            p.getId() === product.getId() ? product : p
+        );
     }
     saveProduct(product: Product): Product {
         product = new Product(product.getId(), product.getName(), product.getPrice(), product.getSKU(), product.getStock());

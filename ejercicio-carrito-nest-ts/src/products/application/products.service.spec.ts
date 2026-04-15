@@ -2,16 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from './products.service';
 import type ProductRepository from './ProductRepository';
 import { Product } from '../domain/entities/Product';
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid-12345')
+}));
 
 describe('ProductsService', () => {
   let service: ProductsService;
   const mockProductsRepository = {
     saveProduct: jest.fn().mockImplementation((product) => {
-      return { ...product, id: 1 };
+      return { ...product, id: '1' };
     }),
     findProductBySKU: jest.fn().mockReturnValue(false),
     getAllProducts: jest.fn().mockReturnValue([]),
-    getProductBySKU: jest.fn().mockReturnValue(new Product(1, 'Arroz', 50, 'ARZ-001', 10)),
+    getProductBySKU: jest.fn().mockReturnValue(new Product('1', 'Arroz', 50, 'ARZ-001', 10)),
     updateProduct: jest.fn(),
   };
 
@@ -95,13 +98,13 @@ describe('ProductsService', () => {
   });
 
   it("should return all products", () => {
-    mockProductsRepository.getAllProducts.mockReturnValue([new Product(1, 'Arroz', 50, 'ARZ-001', 10), new Product(2, 'Frijoles', 30, 'FRJ-001', 20)]);
+    mockProductsRepository.getAllProducts.mockReturnValue([new Product('1', 'Arroz', 50, 'ARZ-001', 10), new Product('2', 'Frijoles', 30, 'FRJ-001', 20)]);
     const products = service.getAllProducts();
-    expect(products).toEqual([new Product(1, 'Arroz', 50, 'ARZ-001', 10), new Product(2, 'Frijoles', 30, 'FRJ-001', 20)]);
+    expect(products).toEqual([new Product('1', 'Arroz', 50, 'ARZ-001', 10), new Product('2', 'Frijoles', 30, 'FRJ-001', 20)]);
   });
 
   it("should return a product updated", () => {
-    mockProductsRepository.getProductBySKU.mockReturnValue(new Product(1, 'Arroz', 50, 'ARZ-001', 10));
+    mockProductsRepository.getProductBySKU.mockReturnValue(new Product('1', 'Arroz', 50, 'ARZ-001', 10));
     const product = service.updateProductStock('ARZ-001', 35);
     expect(product).toEqual(expect.objectContaining({
       sku: 'ARZ-001',

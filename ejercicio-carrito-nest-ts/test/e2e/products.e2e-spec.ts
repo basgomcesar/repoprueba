@@ -3,6 +3,9 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { InMemoryProducts } from './../../src/products/infrastructure/InMemoryProducts';
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid-12345')
+}));
 
 describe('Test cases to Products', () => {
   let app: INestApplication;

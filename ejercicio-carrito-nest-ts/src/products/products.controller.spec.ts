@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './infrastructure/products.controller';
 import { ProductsService } from './application/products.service';
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid-12345')
+}));
 
 describe('ProductsController', () => {
   let controller: ProductsController;
