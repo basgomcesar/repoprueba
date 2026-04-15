@@ -28,16 +28,12 @@ describe('Test cases to Orders', () => {
         await app.close();
     });
 
-    describe('POST /orders', () => {
-        it('Should create an order', async () => {
-            const payload = {
-                userId: 'mock-uuid-12345',
-                productIds: ['product-1', 'product-2'],
-            };
-            const response = await request(app.getHttpServer())
-                .post('/orders')
-                .send(payload)
-                .expect(201);
+    describe('GET /orders', () => {
+        it('Should return all orders', async () => {
+            const res = await request(app.getHttpServer())
+                .get('/orders')
+                .expect(200);
+            expect(res.text).toBe("This endpoint will return all orders");
         });
     });
 
