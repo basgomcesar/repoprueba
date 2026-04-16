@@ -5,7 +5,7 @@ export default class InMemoryOrders implements OrdersRepository {
     static orders: Order[] = [];
 
 
-    getOrderById(idOrder: number): Order {
+    getOrderById(idOrder: string): Order {
         const order = InMemoryOrders.orders.find((o) => o.getUserId() === idOrder);
         if (!order) {
             throw new Error("Orden no encontrada");

@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { CartsService } from './application/carts.service';
 import { CartsController } from './carts.controller';
 import  InMemoryCarts  from './infrastructure/InMemoryCarts';
-import  UsersRepository  from '../users/application/UserRepository';
 import InMemoryUsers from '../users/infrastructure/InMemoryUsers';
 import { InMemoryProducts } from '../products/infrastructure/InMemoryProducts';
+import InMemoryOrders from '../orders/infrastructure/InMemoryOrders';
 
 @Module({
   controllers: [CartsController],
@@ -20,6 +20,10 @@ import { InMemoryProducts } from '../products/infrastructure/InMemoryProducts';
   {
     provide: 'ProductRepository',
     useClass: InMemoryProducts,
+  },
+  {
+    provide: 'OrdersRepository',
+    useClass: InMemoryOrders,
   }
   ]
 })

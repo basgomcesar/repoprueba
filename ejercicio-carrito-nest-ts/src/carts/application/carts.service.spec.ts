@@ -18,6 +18,9 @@ describe('CartsService', () => {
   const mockProductsRepository = {
     getProductBySKU: jest.fn(),
   };
+  const mockOrdersRepository = {
+    saveOrder: jest.fn(),
+  };
 
 
   beforeEach(async () => {
@@ -35,7 +38,12 @@ describe('CartsService', () => {
         {
           provide: 'ProductRepository',
           useValue: mockProductsRepository,
+        },
+        {
+          provide: 'OrdersRepository',
+          useValue: mockOrdersRepository,
         }
+
       ],
     }).compile();
 
@@ -85,6 +93,5 @@ describe('CartsService', () => {
     expect(mockUsersRepository.getUserByPhone).toHaveBeenCalledWith(phoneNumber);
     mockCartsRepository.addProductToCart.mockReturnValue(null);
   });
-
 
 });

@@ -1,11 +1,13 @@
 import { CartItem } from "../../carts/domain/CartItem";
 
 export default class Order {
+    private id: string;
     private total: number;
     private items: CartItem[];
-    private userId: number;
+    private userId: string;
 
-    constructor(total: number, items: CartItem[], userId: number) {
+    constructor(id: string, total: number, items: CartItem[], userId: string) {
+        this.id = id;
         this.total = total;
         this.items = items;
         this.userId = userId;
@@ -15,7 +17,7 @@ export default class Order {
         return this.total;
     }
 
-    getUserId(): number {
+    getUserId(): string {
         return this.userId;
     }
 

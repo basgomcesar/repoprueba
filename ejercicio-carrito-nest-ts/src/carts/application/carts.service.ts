@@ -4,13 +4,16 @@ import type UsersRepository from '../../users/application/UserRepository';
 import type ProductRepository from '../../products/application/ProductRepository';
 import { CartItem } from '../domain/CartItem';
 import Order from '../../orders/domain/Order';
+import { v4 } from 'uuid';
+import type OrdersRepository from '../../orders/application/OrdersRepository';
 
 @Injectable()
 export class CartsService {
 
     constructor(@Inject('CartsRepository') private cartsRepository: CartsRepository,
         @Inject('UsersRepository') private usersRepository: UsersRepository,
-        @Inject('ProductRepository') private productsRepository: ProductRepository
+        @Inject('ProductRepository') private productsRepository: ProductRepository,
+        @Inject('OrdersRepository') private ordersRepository: OrdersRepository
     ) { }
 
     addProductToCart(phoneNumber: string, sku: string, quantity: number) {
@@ -90,7 +93,9 @@ export class CartsService {
         const total = cart.getTotal();
 
         this.cartsRepository.clearCart(user);
+        const order = new Order(v4(), total, itemsCart, user.getId());
+        this.ordersRepository.saveOrder(order);
 
-        return new Order(total, itemsCart, parseInt(user.getId()));
+        return order;
     }
 }

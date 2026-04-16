@@ -8,6 +8,6 @@ export class OrdersController {
 
     @Get()
     getAllOrders() {
-        return "This endpoint will return all orders";
+        return this.ordersService.getAllOrders();
     }
 }
