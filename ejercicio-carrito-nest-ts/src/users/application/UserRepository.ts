@@ -1,6 +1,7 @@
-import User from '../domain/User';
+import User from '../domain/entities/User';
 
 export default interface UserRepository {
+  findUserByEmail(email: string): User | null;
   getAllUsers(): User[];
   findUserByPhone(phone: string): boolean;
   getUserByPhone(phone: string): User | null;
